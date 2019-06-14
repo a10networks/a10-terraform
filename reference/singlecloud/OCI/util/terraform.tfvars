@@ -1,7 +1,7 @@
 #Provider details
-tenancy_ocid = "ocid1.tenancy.oc1..aaaaaaaag4vgboeufnpjup6yzug7bmu7oqg7mypie2civld36hcykym2upta"
-user_ocid = "ocid1.user.oc1..aaaaaaaabxwhc5ad34cgpm3n5a7r7lb4apjnirv3yhzzdrrokubtxhyc3zqq"
-compartment_id = "ocid1.compartment.oc1..aaaaaaaa7aw2lhamca5us45jvea6pbzqh2pgtm375uou4ynsty2afrdo43xq"
+tenancy_ocid = ""
+user_ocid = ""
+compartment_id = ""
 region = "us-ashburn-1"
 
 #Login details
