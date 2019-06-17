@@ -1,5 +1,6 @@
 variable "region" {
     description = "AWS Region"
+    default = ""
 }
 
 variable "aws_access_key" {
@@ -7,6 +8,9 @@ variable "aws_access_key" {
 }
 variable "aws_secret_key" {
   default = ""
+}
+variable "aws_key_name" {
+  description = "AWS EC2 keypair"
 }
 
 variable "amis" {
@@ -47,7 +51,7 @@ resource "aws_instance" "centos-vm01" {
 network_interface_id = "${var.network_interface_id}"
      device_index               = 0
     }
-  key_name = "terraform"
+  key_name = "${var.aws_key_name}"
  tags {
   Name = "vThunder-vm01"
  }

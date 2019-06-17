@@ -39,6 +39,12 @@ variable "private_ip2" {
 variable "region"
 {
   description = "AWS region"
+  default = "eu-west-2"
+}
+
+variable "aws_key_name" {
+  description = "AWS EC2 keypair"
+  default = "terraform"
 }
 
 provider "aws" {
@@ -49,6 +55,7 @@ module "aws_compute" {
   source = "../../../../modules/AWS/infra/compute"
   network_interface_id = "${module.aws_network.default_network_interface_id}"
   region = "${var.region}"
+  aws_key_name = "${var.aws_key_name}"
 }
 
 module "aws_network" {
