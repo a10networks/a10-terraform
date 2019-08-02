@@ -1,7 +1,5 @@
 *.terraform
 *.backup
 *.tfstate
-#*.tfvars
-#*variables.tf
 *.pem
 *.pub

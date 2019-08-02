@@ -1,0 +1,10 @@
+vpc_cidr = "20.0.0.0/16"
+subnet_count = 3
+count = 1 #number of vthundder machines
+subnet_cidr = ["20.0.1.0/24", "20.0.2.0/24", "20.0.3.0/24"] #For default NIC
+region = "sa-east-1" #region in which all resources will be created
+aws_key_name = "terraform" #Enter created EC2 keypair name
+aws_access_key = "" #access key
+aws_secret_key = "" #secret key
+vthunder_address = "10.10.10.10"
+password = "a10"
