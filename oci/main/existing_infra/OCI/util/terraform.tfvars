@@ -2,7 +2,7 @@
 tenancy_ocid = ""
 user_ocid = ""
 compartment_id = ""
-region = "us-ashburn-1"
+region = "" # region for the instance. e.g: us-ashburn-1
 
 #Login details
 private_key_path = ""
@@ -18,12 +18,12 @@ vm_primary_vnic_display_name = "primary-vnic"
 vm_ssh_public_key_path = ""
 
 #Secondary VNIC details - server
-server_vnic_private_ip = "10.0.2.11"
+server_vnic_private_ip = ""  #Server vnic private ip
 server_vnic_display_name = "server"
 server_vnic_index = "1"
 
 #Secondary VNIC details - client
-client_vnic_private_ip = "10.0.3.11"
+client_vnic_private_ip = ""  #Client vnic private ip
 client_vnic_display_name = "client"
 client_vnic_index = "2"
 

@@ -14,10 +14,6 @@ variable "aws_secret_key" {
   default = ""
 }
 
-variable "vpc_cidr" {
-  default = "10.0.0.0/16"
-}
-
 variable "subnet_count" {
   default = "1"
 }
@@ -72,9 +68,6 @@ variable "aws_key_name" {
   description = "AWS EC2 keypair"
 }
 
-variable "subnet_cidr" {
-  type = "list"
-}
 
 variable "countnic" {
   default = ""
