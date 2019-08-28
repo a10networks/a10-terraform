@@ -151,7 +151,7 @@ terraform apply
 
 ## Samples
 
-"terraform.tfvar" files contains sample values for each variation.
+"terraform.tfvar" file contains sample values for each parameter.
 
 ## Bug Reporting and Feature Requests
 
