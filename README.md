@@ -2,8 +2,9 @@
 
 This project contains examples of how to deploy A10 services with Terraform.
 
-## What does this TF script will do:
-Terraform script creates an instance of vThunder with three network interfaces on a cloud platform. Currently it supports AWS and OCI clouds. 
+## Purpose of the TF script:
+Terraform script creates an instance of vThunder with three network interfaces on a cloud platform.
+Currently it supports AWS and OCI clouds.
 
 It provides an option to create an instance with already existing infrastructure (existing vpc, subnets, internet gateways, routes, security groups, etc.)
 
@@ -15,8 +16,8 @@ Below are the details for each cloud implementation:
         * Creation of instance requires existing vpc, subnets, security goups, route tables.
        * Script takes input arguments - vpc id, public and private subnet ids and security group id.
        * Module located at - a10-terraform/aws/main/AWS/existing_infra/3NIC/
-    
-    
+
+
    - Create new infrastructure :
      * Infrastructure will be created from scract in order to create an instance.
      * Creates one custom VPC, inside that VPC it will create one public and private subnet
@@ -31,7 +32,7 @@ Below are the details for each cloud implementation:
        * Creation of instance requires existing vcn, subnets, security lists, routes.
        * Script takes input argument - Subnet id.
        * Module located at - a10-terraform/oci/main/existing_infra/OCI/util/
-    
+
     - Create new infrastructure :
        * Infrastructure will be created from scract in order to create an instance.
         * Creates one custom VCN, inside that VPC it will create 3 subnets
@@ -117,6 +118,7 @@ For more information using terraform, please see:
 ### QUICK START
 
 ```
+
 AWS:
 
 source my-terraform-creds # see above
@@ -144,7 +146,7 @@ terraform apply
 
  - https://github.com/hashicorp/best-practices/tree/master/terraform/modules/
  - https://blog.threatstack.com/incorporating-aws-security-best-practices-into-terraform-design
- 
+
 ```
 
 ## Samples
