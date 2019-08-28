@@ -76,6 +76,17 @@ variable "client_vnic_index" {
 description = "client VNIC index"
 }
 
+variable "oci_subnet_id1" {
+description = "oci_subnet_id1"
+}
+
+variable "oci_subnet_id2" {
+description = "oci_subnet_id2"
+}
+
+variable "oci_subnet_id3" {
+description = "oci_subnet_id3"
+}
 
 provider "oci" {
   version          = ">= 3.24.0"
@@ -92,8 +103,8 @@ module "oci_compute" {
 tenancy_ocid = "${var.tenancy_ocid}"
 compartment_id = "${var.compartment_id}"
  source = "../../../../modules/OCI/infra/compute"
- oci_subnet_id1 = "${module.subnet.oci_subnet_id1}"
- oci_subnet_id3 = "${module.subnet.oci_subnet_id3}"
+ oci_subnet_id1 = "${var.oci_subnet_id1}"
+ oci_subnet_id3 = "${var.oci_subnet_id3}"
  vm_availability_domain = "${var.vm_availability_domain}"
  vm_shape = "${var.vm_shape}"
  vm_display_name = "${var.vm_display_name}"
@@ -105,47 +116,13 @@ compartment_id = "${var.compartment_id}"
 
 module "nic" {
  source = "../../../../modules/OCI/infra/NIC"
- oci_subnet_id2 = "${module.subnet.oci_subnet_id2}"
+ oci_subnet_id2 = "${var.oci_subnet_id2}"
  server_vnic_display_name = "${var.server_vnic_display_name}"
  server_vnic_private_ip = "${var.server_vnic_private_ip}"
  instance_id = "${module.oci_compute.instance_id}"
- oci_subnet_id3 = "${module.subnet.oci_subnet_id3}"
+ oci_subnet_id3 = "${var.oci_subnet_id3}"
  client_vnic_display_name = "${var.client_vnic_display_name}"
  client_vnic_private_ip = "${var.client_vnic_private_ip}" 
-}
-
-module "oci_network" {
-   source = "../../../../modules/OCI/infra/vcn"
-  compartment_id = "${var.compartment_id}"
-}
-
-module "igw" {
-source = "../../../../modules/OCI/infra/IGW"
-compartment_id = "${var.compartment_id}"
-vcn_id = "${module.oci_network.id}"
-}
-
-module "subnet" {
-source = "../../../../modules/OCI/infra/subnet"
-compartment_id = "${var.compartment_id}"
-vcn_id = "${module.oci_network.id}"
-vm_availability_domain = "${var.vm_availability_domain}"
-default_dhcp_options_id = "${module.oci_network.default_dhcp_options_id}"
-route_table_id = "${module.route.route_table_id}"
-security_list_ids = "${module.sl.security_list_ids}"
-}
-
-module "route" {
-source = "../../../../modules/OCI/infra/route"
-compartment_id = "${var.compartment_id}"
-vcn_id = "${module.oci_network.id}"
-internet_gateway_id = "${module.igw.internet_gateway_id}"
-}
-
-module "sl" {
-source = "../../../../modules/OCI/infra/SL"
-compartment_id = "${var.compartment_id}"
-vcn_id = "${module.oci_network.id}"
 }
 
 output "vnic ID" {value = "${module.nic.vnic_id}" }

@@ -18,13 +18,17 @@ vm_primary_vnic_display_name = "primary-vnic"
 vm_ssh_public_key_path = ""
 
 #Secondary VNIC details - server
-server_vnic_private_ip = "10.0.2.10"
+server_vnic_private_ip = "10.0.2.11"
 server_vnic_display_name = "server"
 server_vnic_index = "1"
 
 #Secondary VNIC details - client
-client_vnic_private_ip = "10.0.3.10"
+client_vnic_private_ip = "10.0.3.11"
 client_vnic_display_name = "client"
 client_vnic_index = "2"
 
 app_display_name = "app"
+
+oci_subnet_id1 = ""  # first subnet id
+oci_subnet_id2 = ""  # second subnet id
+oci_subnet_id3 = ""  # third subnet id
