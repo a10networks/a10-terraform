@@ -3,18 +3,41 @@
 This project contains examples of how to deploy A10 services with terraform.
 
 ## What does this TF script will do:
-Purpose is to create an instance of vThunder with three network interfaces. Below are the details for each cloud implementation:
+Terraform script will creste an instance of vThunder with three network interfaces. 
+
+It provides an option to create an instance with already existing infrastructure (existing vpc, subnets, internet gateways, routes, security groups, etc.)
+
+Below are the details for each cloud implementation:
 
  - AWS:
-    * Creates one custom VPC, inside that VPC it will create one public and private subnet
-    * Creates an Internet Gateway and attach it to created custom VPC
-    * Creates an vThunder instance with 2 NIC on each subnets
-    * Creates 3 Elastic IP's, one for management, one is for Data NIC and another is for VIP
+    - Existing Infrastructure :
+        * Instance will be created with already existing infrastructure.
+        * Creation of instance requires existing vpc, subnets, security goups, route tables.
+       * Script takes input arguments - vpc id, public and private subnet ids and security group id.
+       * Module located at - a10-terraform/aws/main/AWS/existing_infra/3NIC/
+    
+    
+   - Create new infrastructure :
+     * Infrastructure will be created from scract in order to create an instance.
+     * Creates one custom VPC, inside that VPC it will create one public and private subnet
+     * Creates an Internet Gateway and attach it to created custom VPC
+     * Creates an vThunder instance with 2 NIC on each subnets
+     * Creates 3 Elastic IP's, one for management, one is for Data NIC and another is for VIP
+     * Module located at - a10-terraform/aws/main/AWS/standalone/3NIC/
 
  - OCI:
-    * Creates one custom VCN, inside that VPC it will create one subnets
-    * Creates an Internet Gateway and attach it to created custom VCN
-    * Creates 2 an vThunder instance with 3 NIC on created subnets
+    - Existing infrastrucutre :
+      * Instance will be created with already existing infrastructure.
+       * Creation of instance requires existing vcn, subnets, security lists, routes.
+       * Script takes input argument - Subnet id.
+       * Module located at - a10-terraform/oci/main/existing_infra/OCI/util/
+    
+    - Create new infrastructure :
+       * Infrastructure will be created from scract in order to create an instance.
+        * Creates one custom VCN, inside that VPC it will create 3 subnets
+         * Creates an Internet Gateway and attach it to created custom VCN
+        * Creates 2 vThunder instances with 3 NIC on created subnets.
+        * Module located at - a10-terraform/oci/main/singlecloud/OCI/util/
 
 
 ## REQUIREMENTS
