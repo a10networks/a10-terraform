@@ -1,9 +1,9 @@
 # TERRAFORM
 
-This project contains examples of how to deploy A10 services with terraform.
+This project contains examples of how to deploy A10 services with Terraform.
 
 ## What does this TF script will do:
-Terraform script will creste an instance of vThunder with three network interfaces. 
+Terraform script creates an instance of vThunder with three network interfaces on a cloud platform. Currently it supports AWS and OCI clouds. 
 
 It provides an option to create an instance with already existing infrastructure (existing vpc, subnets, internet gateways, routes, security groups, etc.)
 
@@ -23,7 +23,7 @@ Below are the details for each cloud implementation:
      * Creates an Internet Gateway and attach it to created custom VPC
      * Creates an vThunder instance with 2 NIC on each subnets
      * Creates 3 Elastic IP's, one for management, one is for Data NIC and another is for VIP
-     * Module located at - a10-terraform/aws/main/AWS/standalone/3NIC/
+     * Module located at - a10-terraform/aws/main/AWS/new_infra/3NIC/
 
  - OCI:
     - Existing infrastrucutre :
@@ -37,7 +37,7 @@ Below are the details for each cloud implementation:
         * Creates one custom VCN, inside that VPC it will create 3 subnets
          * Creates an Internet Gateway and attach it to created custom VCN
         * Creates 2 vThunder instances with 3 NIC on created subnets.
-        * Module located at - a10-terraform/oci/main/singlecloud/OCI/util/
+        * Module located at - a10-terraform/oci/main/new_infra/OCI/util/
 
 
 ## REQUIREMENTS
@@ -61,6 +61,11 @@ The following are general prerequisites for these templates:
 
 ## Special Note:
     - You need to mention ec2 key pair name in terraform.tfvar of AWS
+    - You need to provide all necessary parameters in terraform.tfvar file placed in each relevant folder in the ‘main’ directory.
+    - Each cloud implementation contains two directories
+	   - Module: It contains scripts to be used by main TF script
+	   - Main: TF scripts of your interest are placed here. This is the entry    point. Please be sure to run terraform commands from this directory.
+
 
 ## USAGE
 
@@ -139,3 +144,18 @@ terraform apply
 
  - https://github.com/hashicorp/best-practices/tree/master/terraform/modules/
  - https://blog.threatstack.com/incorporating-aws-security-best-practices-into-terraform-design
+ 
+```
+
+## Samples
+
+"terraform.tfvar" files contains sample values for each variation.
+
+## Bug Reporting and Feature Requests
+
+Please submit bug reports and feature requests via GitHub issues. When reporting bugs, please include the playbook that demonstrates the bug and the Ansible output. Stack traces are always nice, but playbooks work well. Please ensure any sensitive information is redacted as Issues and Pull Requests are publicly viewable.
+
+
+## Contact
+
+If you have a question that cannot be submitted via GitHub Issues, please email support@a10networks.com with "a10-terraform" in the subject line.
