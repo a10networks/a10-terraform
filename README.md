@@ -51,21 +51,22 @@ General prerequisites for the templates are mentioned as below:
 
  For all images used in the marketplace
  If these images are not deployed in the environment before, search for the images in the marketplace and click **Accept Software Terms**.  This appears the first time an image is launched.
-    * A10 images used:
-            - **AWS**:
+    
+# A10 images used:
+- **AWS**:
                  https://aws.amazon.com/marketplace/pp/B01I9BK4ZW?qid=1560841760149&sr=0-2&ref_=srh_res_product_title
-            - **OCI**:
+- **OCI**:
                  https://cloudmarketplace.oracle.com/marketplace/en_US/listing/51617399
 
  - Key pair for SSH access to instances
-    - **AWS**: Create or import the key pair in AWS. For more information, see http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html
+    - **AWS**: Create or import the key pair in AWS. For more information, see   http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html
 
 ## Note:
-    - Mention ec2 key pair name in terraform.tfvar of AWS
-    - Provide all necessary parameters in terraform.tfvar file placed in each relevant folder in the ‘main’ directory.
-    - Each cloud implementation contains two directories
-	   - Module: It contains the scripts to be used by main Terraform script
-	   - Main: This is the entry point. Run the Terraform commands from this directory.
+- Mention ec2 key pair name in terraform.tfvar of AWS
+- Provide all necessary parameters in terraform.tfvar file placed in each relevant folder in the ‘main’ directory.
+- Each cloud implementation contains two directories
+- Module: It contains the scripts to be used by main Terraform script
+- Main: This is the entry point. Run the Terraform commands from this directory.
 
 
 ## USAGE
@@ -77,7 +78,6 @@ https://www.terraform.io/docs/providers/oci/index.html
 
 For example, if manually setting environment variables, the file can look like:
 
-
 ```
 > cat my-terraform-provider-creds
 #!/bin/bash
@@ -86,18 +86,20 @@ For example, if manually setting environment variables, the file can look like:
 export AWS_ACCESS_KEY_ID="XXXXXXXXXXXXXXXXXXX"
 export AWS_SECRET_ACCESS_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 export AWS_DEFAULT_REGION=""eu-west-2"
-
+```
 
 Before starting the process, run the following command:
 
+```
 source my-terraform-provider-creds
 ```
-
 As most of the examples leverage modules ( reusable templates ), first import or "get" them.
-
 - terraform get
   - In many cases, the modules reference a remote link as the source so internet connectivity will be required.
-  - **hint**: use "terraform get -update=true" to make sure your modules are up-to-date
+  - **hint**: use below command to make sure your modules are up-to-date.
+            ```
+            terraform get -update=true" 
+            ```
 
 - terraform plan
 
@@ -115,28 +117,25 @@ For more information using terraform, please see:
 
 ### QUICK START
 
+# AWS:
+
 ```
-
-AWS:
-
 source my-terraform-creds # see above
 cd reference/AWS/util
 vim terraform.tfvars      # configure any variables required with EC2 key pair name to create instance
 terraform get
 terraform apply
+```
 
+# OCI:
 
-OCI:
-
+```
 source my-terraform-creds # see above
 cd reference/oci/util
-vim terraform.tfvars      # configure any variables required
-###
-Edit this file with the OCI Provider details, Login details, vThunder VM details
+vim terraform.tfvars      # configure any variables required, Edit this file with the OCI Provider details, Login details, vThunder VM details
 
 terraform get
-terraform apply
-#at terraform apply it will ask you VM ssh public key file path, enter full absolute path with filename
+terraform apply           #at terraform apply it will ask you VM ssh public key file path, enter full absolute path with filename
 
 ```
 
@@ -145,7 +144,7 @@ terraform apply
  - https://github.com/hashicorp/best-practices/tree/master/terraform/modules/
  - https://blog.threatstack.com/incorporating-aws-security-best-practices-into-terraform-design
 
-```
+
 
 ## Samples
 
@@ -154,7 +153,6 @@ terraform apply
 ## Bug Reporting and Feature Requests
 
 Please submit bug reports and feature requests via GitHub issues. When reporting bugs, please include the playbook that demonstrates the bug and the Ansible output. Stack traces are always nice, but playbooks work well. Ensure that any sensitive information is redacted as Issues, and Pull Requests are publicly viewable.
-
 
 ## Contact
 
