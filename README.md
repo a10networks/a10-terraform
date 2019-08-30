@@ -2,7 +2,7 @@
 
 This project contains examples of how to deploy A10 services with Terraform.
 
-## Purpose of the TF script:
+## Purpose of the Terraform script:
 Terraform script creates an instance of vThunder with three network interfaces on a cloud platform.
 Currently it supports AWS and OCI clouds.
 
