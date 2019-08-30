@@ -12,8 +12,8 @@ Cloud specific details are mentioned below:
 
  - AWS:
     - Existing Infrastructure :
-        * Instance is created within an already existing infrastructure.
-        * Creation of instance requires existing VPC, subnets, security groups, route tables.
+       * Instance is created within an already existing infrastructure.
+       * Creation of instance requires existing VPC, subnets, security groups, route tables.
        * The Script accepts input arguments for- vpc id, public and private subnet ids and security group id.
        * The module is located at - a10-terraform/aws/main/AWS/existing_infra/3NIC/
 
@@ -46,31 +46,31 @@ Cloud specific details are mentioned below:
 General prerequisites for the templates are mentioned as below:
  - Credentials in each environment with associated privileges for resources creation.
     * Note :
-        * For AWS and OCI, the credentials used in the terraform provider must be able to create IAM Instance Profiles.
- - Accepted the EULAProTip! Updating your profile with your name, location, and a profile picture helps other GitHub users get to know you.
+        * For AWS and OCI, the credentials provided in the Terraform provider must be able to create IAM Instance Profiles.
+ - Accept the EULAProTip! Updating the profile with your name, location, and a profile picture helps other GitHub users to get to know you.
 
- for all images used in the marketplace. If you have not deployed these images in environment before, search for the images in the Marketplace and then click **Accept Software Terms**.  This typically only appears the first time you attempt to launch an image.
-    * Images used:
-        - **A10 Image used**
+ For all images used in the marketplace
+ If these images are not deployed in the environment before, search for the images in the marketplace and click **Accept Software Terms**.  This appears the first time an image is launched.
+    * A10 images used:
             - **AWS**:
                  https://aws.amazon.com/marketplace/pp/B01I9BK4ZW?qid=1560841760149&sr=0-2&ref_=srh_res_product_title
             - **OCI**:
                  https://cloudmarketplace.oracle.com/marketplace/en_US/listing/51617399
 
  - Key pair for SSH access to instances
-    - **aws**: you can create or import the key pair in AWS, see http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html for information.
+    - **AWS**: Create or import the key pair in AWS. For more information, see http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html
 
-## Special Note:
-    - You need to mention ec2 key pair name in terraform.tfvar of AWS
-    - You need to provide all necessary parameters in terraform.tfvar file placed in each relevant folder in the ‘main’ directory.
+## Note:
+    - Mention ec2 key pair name in terraform.tfvar of AWS
+    - Provide all necessary parameters in terraform.tfvar file placed in each relevant folder in the ‘main’ directory.
     - Each cloud implementation contains two directories
-	   - Module: It contains scripts to be used by main TF script
-	   - Main: TF scripts of your interest are placed here. This is the entry    point. Please be sure to run terraform commands from this directory.
+	   - Module: It contains the scripts to be used by main Terraform script
+	   - Main: This is the entry point. Run the Terraform commands from this directory.
 
 
 ## USAGE
 
-The most challenging part will be obtaining the necessary credentials for each provider. The templates rely on environmental variables for the provider credentials. See the individual provider for each environment for more details.
+The most important step is getting the necessary credentials for each provider. The templates rely on environmental variables for the provider credentials. For details, see the individual provider for each environment on the links mentioned below.
 
 https://www.terraform.io/docs/providers/aws/index.html
 https://www.terraform.io/docs/providers/oci/index.html
@@ -89,13 +89,13 @@ export AWS_DEFAULT_REGION=""eu-west-2"
 
 
 
-then before you start, simply run:
+Before starting the process, run the following command:
 
 ```
 > source my-terraform-provider-creds
 ```
 
-Next, as most of the examples leverage modules ( reusable templates ), you must first import or "get" them.
+As most of the examples leverage modules ( reusable templates ), first import or "get" them.
 
 - terraform get
   - In many cases, the modules reference a remote link as the source so internet connectivity will be required.
@@ -134,7 +134,7 @@ source my-terraform-creds # see above
 cd reference/oci/util
 vim terraform.tfvars      # configure any variables required
 ###
-Edit this file with your OCI Provider details, Login details, vThunder VM details
+Edit this file with the OCI Provider details, Login details, vThunder VM details
 
 terraform get
 terraform apply
@@ -151,13 +151,13 @@ terraform apply
 
 ## Samples
 
-"terraform.tfvar" file contains sample values for each parameter.
+'terraform.tfvar' file contains sample values for each parameter.
 
 ## Bug Reporting and Feature Requests
 
-Please submit bug reports and feature requests via GitHub issues. When reporting bugs, please include the playbook that demonstrates the bug and the Ansible output. Stack traces are always nice, but playbooks work well. Please ensure any sensitive information is redacted as Issues and Pull Requests are publicly viewable.
+Please submit bug reports and feature requests via GitHub issues. When reporting bugs, please include the playbook that demonstrates the bug and the Ansible output. Stack traces are always nice, but playbooks work well. Ensure that any sensitive information is redacted as Issues, and Pull Requests are publicly viewable.
 
 
 ## Contact
 
-If you have a question that cannot be submitted via GitHub Issues, please email support@a10networks.com with "a10-terraform" in the subject line.
+If you have a question that cannot be submitted via GitHub Issues, email support@a10networks.com with "a10-terraform" in the subject line.
