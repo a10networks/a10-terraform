@@ -1,51 +1,51 @@
 # TERRAFORM
 
-This project contains examples of how to deploy A10 services with Terraform.
+This project contains examples to deploy A10 ADC services with Terraform.
 
 ## Purpose of the Terraform script:
-Terraform script creates an instance of vThunder with three network interfaces on a cloud platform.
-Currently it supports AWS and OCI clouds.
+The Terraform script provided creates an instance of vThunder with three network interfaces on a cloud provider.
+It currently supports AWS and OCI clouds.
 
-It provides an option to create an instance with already existing infrastructure (existing vpc, subnets, internet gateways, routes, security groups, etc.)
+The Terraform script also provides an option to create an instance within an already existing infrastructure (for example, existing VPC, Subnets, Internet Gateways, Routes, Security Groups, etc.)
 
-Below are the details for each cloud implementation:
+Cloud specific details are mentioned below:
 
  - AWS:
     - Existing Infrastructure :
-        * Instance will be created with already existing infrastructure.
-        * Creation of instance requires existing vpc, subnets, security goups, route tables.
-       * Script takes input arguments - vpc id, public and private subnet ids and security group id.
-       * Module located at - a10-terraform/aws/main/AWS/existing_infra/3NIC/
+        * Instance is created within an already existing infrastructure.
+        * Creation of instance requires existing VPC, subnets, security groups, route tables.
+       * The Script accepts input arguments for- vpc id, public and private subnet ids and security group id.
+       * The module is located at - a10-terraform/aws/main/AWS/existing_infra/3NIC/
 
 
-   - Create new infrastructure :
-     * Infrastructure will be created from scract in order to create an instance.
-     * Creates one custom VPC, inside that VPC it will create one public and private subnet
-     * Creates an Internet Gateway and attach it to created custom VPC
-     * Creates an vThunder instance with 2 NIC on each subnets
-     * Creates 3 Elastic IP's, one for management, one is for Data NIC and another is for VIP
-     * Module located at - a10-terraform/aws/main/AWS/new_infra/3NIC/
+   - New infrastructure :
+     * Infrastructure is provisioned from scratch to create an instance.
+     * Custom VPC is created, within the VPC, one public and one private subnet is provisioned.
+     * An Internet Gateway is provisioned and attached to the custom VPC
+     * A vThunder instance is provisioned with two NICs on each subnets
+     * Three elastic IP's are provisioned, one for management, one for Data NIC and one for VIP.
+     * The module is located at - a10-terraform/aws/main/AWS/new_infra/3NIC/
 
  - OCI:
-    - Existing infrastrucutre :
-      * Instance will be created with already existing infrastructure.
-       * Creation of instance requires existing vcn, subnets, security lists, routes.
-       * Script takes input argument - Subnet id.
-       * Module located at - a10-terraform/oci/main/existing_infra/OCI/util/
+    - Existing infrastructure :
+       * Instance is created within an already existing infrastructure.
+       * Creation of instance requires existing vcn, subnets, security lists and routes.
+       * The script accepts input argument - subnet id.
+       * The module is located at - a10-terraform/oci/main/existing_infra/OCI/util/
 
-    - Create new infrastructure :
-       * Infrastructure will be created from scract in order to create an instance.
-        * Creates one custom VCN, inside that VPC it will create 3 subnets
-         * Creates an Internet Gateway and attach it to created custom VCN
-        * Creates 2 vThunder instances with 3 NIC on created subnets.
-        * Module located at - a10-terraform/oci/main/new_infra/OCI/util/
+    - New infrastructure :
+       * Infrastructure is created from scratch to create an instance.
+       * One custom VCN is provisioned. Within the VCN, three subnets are provisioned.
+       * An Internet Gateway is provisioned and attached to the custom VCN
+       * Two vThunder instances are provisioned with three NICs on those subnets.
+       * The module is located at - a10-terraform/oci/main/new_infra/OCI/util/
 
 
 ## REQUIREMENTS
 
-The following are general prerequisites for these templates:
- - Credentials in each environment with the appropriate permission to create associated resources.
-    * Special Note :
+General prerequisites for the templates are mentioned as below:
+ - Credentials in each environment with associated privileges for resources creation.
+    * Note :
         * For AWS and OCI, the credentials used in the terraform provider must be able to create IAM Instance Profiles.
  - Accepted the EULAProTip! Updating your profile with your name, location, and a profile picture helps other GitHub users get to know you.
 
