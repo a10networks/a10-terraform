@@ -88,11 +88,9 @@ export AWS_SECRET_ACCESS_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 export AWS_DEFAULT_REGION=""eu-west-2"
 
 
-
 Before starting the process, run the following command:
 
-```
-> source my-terraform-provider-creds
+source my-terraform-provider-creds
 ```
 
 As most of the examples leverage modules ( reusable templates ), first import or "get" them.
