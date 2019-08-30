@@ -6,7 +6,7 @@ This project contains examples to deploy A10 ADC services with Terraform.
 The Terraform script provided creates an instance of vThunder with three network interfaces on a cloud provider.
 It currently supports AWS and OCI clouds.
 
-The Terraform script also provides an option to create an instance within an already existing infrastructure (for example, existing VPC, Subnets, Internet Gateways, Routes, Security Groups, etc.)
+The Terraform script also provides an option to create an instance within an already existing infrastructure (for example, existing VPC, subnets, internet gateways, routes, security groups, etc.)
 
 Cloud specific details are mentioned below:
 
