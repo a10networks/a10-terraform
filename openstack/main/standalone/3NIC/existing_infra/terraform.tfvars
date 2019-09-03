@@ -1,0 +1,10 @@
+username = "GS-2205"
+tenant_name = "A10-Networks"
+tenant_id = "8af5c4076d02407ba393eca9360f70a7"
+auth_url = "http://cloud.gslab.com:5000/v3"
+region = "RegionOne"
+image_id = "2e525daf-f23a-4154-8daf-37b745d48f80"
+flavor_name = "vthunder_custom"
+network_name = "tf_network"
+network_id = "cd58fdfd-d744-4011-979a-fa835d8d43c1"
+subnet_ids = ["fddda807-f19c-46bd-92fa-7a8158e86f36","5a3d9527-7fb5-4b50-99e8-999baf85d0a9","0ed94185-c34c-45b3-b213-75d75bdaa771"]

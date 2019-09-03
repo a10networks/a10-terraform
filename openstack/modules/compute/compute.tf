@@ -35,12 +35,16 @@ variable "sg_id" {
   default = ""
 }
 
+variable "port1" {
+  default = ""
+}
+
 provider "openstack" {
   cloud = "openstack"
 }
 
 resource "openstack_compute_instance_v2" "TF-VM" {
-  name      = "TF-Vthunder-vm01"
+  name      = "TF-Vthunder-vm01-test"
   image_id  = "${var.image_id}"
   flavor_name = "${var.flavor_name}"
   #security_groups = ["${var.sg_id}"]

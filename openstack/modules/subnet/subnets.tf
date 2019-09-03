@@ -10,7 +10,6 @@ type = "list"
 }
 
 variable "network_id_default" {
-  default = ""
 }
 
 

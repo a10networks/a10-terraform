@@ -1,9 +1,0 @@
-username = "" #User name
-tenant_name = "" # Tenant Name
-tenant_id = "" # Tenant ID
-auth_url = "" # Auth URL
-region = "" #Region Name
-image_id = "" # vThunder image ID
-flavor_name = "vthunder_custom" #image type
-cidr = ["","",""] #CIDR range of 3 subnets
-external_network_id = "8bc538f0-27a7-4f29-ab80-2e98e72acd95" #id of public router
