@@ -27,18 +27,21 @@ variable "tenant_id" {
   default = ""
 }
 
-variable "network_name" {
+variable "mgmt_network_name" {
   default = ""
 }
 
-variable "sg_id" {
+variable "eth1_network_name" {
   default = ""
 }
 
-variable "port1" {
+variable "eth2_network_name" {
   default = ""
 }
 
+variable "centos_image_id" {
+  default = "786217ea-4c34-476e-b7a0-b38d16aba6d6"
+}
 provider "openstack" {
   cloud = "openstack"
 }
@@ -50,10 +53,31 @@ resource "openstack_compute_instance_v2" "TF-VM" {
   #security_groups = ["${var.sg_id}"]
 
 
+
   network {
-    name = "${var.network_name}"
+    name = "${var.mgmt_network_name}"
+  }
+
+  network {
+    name = "${var.eth2_network_name}"
   }
 
 }
 
+resource "openstack_compute_instance_v2" "app" {
+  name      = "tf-app-server01"
+  image_id  = "${var.centos_image_id}"
+  flavor_name = "m1.medium"
+  #security_groups = ["${var.sg_id}"]
+
+
+  network {
+    name = "${var.eth2_network_name}"
+  }
+
+user_data = "${file("user_data.sh")}"
+
+}
+
 output "instance_id" { value = "${openstack_compute_instance_v2.TF-VM.id}" }
+output "app_server_ip" {value = "${openstack_compute_instance_v2.app.access_ip_v4}"}
