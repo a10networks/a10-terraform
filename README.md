@@ -4,9 +4,9 @@ This project contains examples to deploy A10 ADC services with Terraform.
 
 ## Purpose of the Terraform script:
 The Terraform script provided creates an instance of vThunder with three network interfaces on a cloud provider.
-It currently supports AWS and OCI clouds.
+It supports AWS and OCI clouds.
 
-The Terraform script also provides an option to create an instance within an already existing infrastructure (for example, existing VPC, subnets, internet gateways, routes, security groups, etc.)
+The Terraform script also provides an option to create an instance within an existing infrastructure (for example, existing VPC, subnets, internet gateways, routes, security groups, etc.)
 
 Cloud specific details are mentioned below:
 
@@ -65,8 +65,8 @@ General prerequisites for the templates are mentioned as below:
 - Mention ec2 key pair name in terraform.tfvar of AWS
 - Provide all necessary parameters in terraform.tfvar file placed in each relevant folder in the ‘main’ directory.
 - Each cloud implementation contains two directories
-- Module: It contains the scripts to be used by main Terraform script
-- Main: This is the entry point. Run the Terraform commands from this directory.
+   - Module: It contains the scripts to be used by main Terraform script
+   - Main: This is the entry point. Run the Terraform commands from this directory.
 
 
 ## USAGE
@@ -76,7 +76,7 @@ The most important step is getting the necessary credentials for each provider. 
 https://www.terraform.io/docs/providers/aws/index.html
 https://www.terraform.io/docs/providers/oci/index.html
 
-For example, if manually setting environment variables, the file can look like:
+For example, if the environment variables are set manually, the file may look like:
 
 ```
 > cat my-terraform-provider-creds
@@ -95,7 +95,7 @@ source my-terraform-provider-creds
 ```
 As most of the examples leverage modules ( reusable templates ), first import or "get" them.
 - terraform get
-  - In many cases, the modules reference a remote link as the source so internet connectivity will be required.
+  - In many cases, the modules refer a remote link as the source. Therefore, internet connectivity will be required.
   - **hint**: use below command to make sure your modules are up-to-date.
             ```
             terraform get -update=true" 
@@ -108,7 +108,7 @@ As most of the examples leverage modules ( reusable templates ), first import or
 - terraform destroy
 
 
-For more information using terraform, please see:
+For more information using terraform, see:
 
 [Terraform](https://www.terraform.io/)
 
@@ -152,7 +152,7 @@ terraform apply           #at terraform apply it will ask you VM ssh public key 
 
 ## Bug Reporting and Feature Requests
 
-Please submit bug reports and feature requests via GitHub issues. When reporting bugs, please include the playbook that demonstrates the bug and the Ansible output. Stack traces are always nice, but playbooks work well. Ensure that any sensitive information is redacted as Issues, and Pull Requests are publicly viewable.
+Please submit bug reports and feature requests via GitHub issues. When reporting bugs, please include the Terraform script that demonstrates the bug and the output. Stack traces are always nice. Ensure that any sensitive information is redacted as Issues, and Pull Requests are publicly viewable.
 
 ## Contact
 
