@@ -24,18 +24,21 @@ provider "openstack" {
 
 
 resource "openstack_networking_network_v2" "network_1" {
-  name           = "tf_network"
+  name           = "tf_network_mgmt"
   admin_state_up = "true"
 }
 
 resource "openstack_networking_network_v2" "network_2" {
-  name           = "tf_network_default"
+  name           = "tf_network_server"
+  admin_state_up = "true"
+}
+
+resource "openstack_networking_network_v2" "network_3" {
+  name           = "tf_network_client"
   admin_state_up = "true"
 }
 
 
-output "network_id" {value = "${openstack_networking_network_v2.network_1.id}" }
-
-output "network_id_default" { value = "${openstack_networking_network_v2.network_2.id}"}
-output "network_name" {value = "${openstack_networking_network_v2.network_1.name}" }
-output "network_name_default" {value = "${openstack_networking_network_v2.network_2.name}" }
+output "network_id_mgmt" {value = "${openstack_networking_network_v2.network_1.id}" }
+output "network_id_server" {value = "${openstack_networking_network_v2.network_2.id}" }
+output "network_id_client" {value = "${openstack_networking_network_v2.network_3.id}" }

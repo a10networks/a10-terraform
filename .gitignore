@@ -3,3 +3,4 @@
 *.tfstate
 *.pem
 *.pub
+clouds.yml
