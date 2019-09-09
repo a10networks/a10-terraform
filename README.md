@@ -154,6 +154,14 @@ terraform apply           #at terraform apply it will ask you VM ssh public key 
 
 ```
 # Openstack:
+Note:
+```
+#How to generate cloud.yaml file from openstack console
+1) Login to openstack console
+2) Go to Project-> API access
+3) On top corner of right side click to download cloud.yaml file
+```
+
 ```
 cd openstack/main/standalone/3NIC/new_infra(or existing_infra)
 export OS_PASSWORD=<YOUR Openstack cloud password>
