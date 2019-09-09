@@ -42,7 +42,7 @@ Cloud specific details are mentioned below:
 
  - Openstack:
     - Existing Infrastructure :
-	 * Instance is created within an already existing infrastructure.
+       * Instance is created within an already existing infrastructure.
        * Creation of instance requires existing networks, subnets, Routers.
        * The script accepts nput arguments for network name, network id, subnet id of management, server and client network
        * The module is located at – a10-terraform/openstack/main/standalone/3NIC/existing_infra
