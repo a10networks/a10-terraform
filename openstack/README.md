@@ -12,3 +12,11 @@ Openstack:
         ◦ A vThunder instance is provisioned with three ports on each subnets
         ◦ Three elastic IP's are provisioned, one for management, one for Data port and one for VIP.
         ◦ The module is located at - a10-terraform/openstack/main/standalone/3NIC/new_infra
+
+QUICK START:
+
+cd openstack/main/standalone/3NIC/new_infra(or existing_infra)
+export OS_PASSWORD=<YOUR Openstack cloud password>
+terraform init
+terraform plan
+terraform apply
