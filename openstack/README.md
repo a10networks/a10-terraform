@@ -13,8 +13,16 @@
      *  Three elastic IP's are provisioned, one for management, one for Data port and one for VIP.
      *  The module is located at - a10-terraform/openstack/main/standalone/3NIC/new_infra
 
+Note:
+```
+#How to generate cloud.yaml file from openstack console
+1) Login to openstack console
+2) Go to Project-> API access
+3) On top corner of right side click to download cloud.yaml file
+```
 QUICK START:
 ```
+cp <your-cloud.yaml> openstack/main/standalone/3NIC/new_infra(or existing infra) #
 cd openstack/main/standalone/3NIC/new_infra(or existing_infra)
 export OS_PASSWORD=<YOUR Openstack cloud password>
 terraform init
