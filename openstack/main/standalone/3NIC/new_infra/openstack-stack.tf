@@ -34,12 +34,9 @@ variable "network_name" {
   default = ""
 }
 
-variable "network_id" {
-  default = ""
-}
-
 variable "external_network_id" {
 }
+
 
 
 module "VPC" {
@@ -54,46 +51,57 @@ module "VPC" {
 module "subnet" {
   source = "../../../../modules/subnet"
   cidr = "${var.cidr}"
-  network_id = "${module.VPC.network_id}"
-  network_id_default = "${module.VPC.network_id_default}"
+  network_id_mgmt = "${module.VPC.network_id_mgmt}"
+  network_id_server = "${module.VPC.network_id_server}"
+  network_id_client = "${module.VPC.network_id_client}"
 }
 
 module "router" {
   source = "../../../../modules/Routing"
   external_network_id = "${var.external_network_id}"
-  subnet_id = "${module.subnet.subnet_ids}"
-  default_subnet = "${module.subnet.default_subnet}"
+  subnet_id_mgmt = "${module.subnet.subnet_id_mgmt}"
+  subnet_id_server = "${module.subnet.subnet_id_server}"
+  subnet_id_client = "${module.subnet.subnet_id_client}"
 }
+
 
 module "compute" {
-  source = "../../../../modules/compute"
+  source = "../../../../modules/new_compute"
   image_id = "${var.image_id}"
   flavor_name = "${var.flavor_name}"
-  sg_id = "${module.security_group.security_group_id}"
-  network_name = "${module.VPC.network_name_default}"
-
+  network_id_mgmt = "${module.VPC.network_id_mgmt}"
+  network_id_server = "${module.VPC.network_id_server}"
+  network_id_client = "${module.VPC.network_id_client}"
+  #port1 = "${module.port.port1}"
 }
 
-
+/*
 module "security_group" {
   source = "../../../../modules/security_group"
 
 }
+*/
 
 module "port" {
   source = "../../../../modules/port"
-  sg_id = "${module.security_group.security_group_id}"
-  network_id = "${module.VPC.network_id}"
-  subnet_ids = "${module.subnet.subnet_ids}"
-  network_id_default = "${module.VPC.network_id}"
+  network_id_mgmt = "${module.VPC.network_id_mgmt}"
+  network_id_server = "${module.VPC.network_id_server}"
+  network_id_client = "${module.VPC.network_id_client}"
+  subnet_id_mgmt = "${module.subnet.subnet_id_mgmt}"
+  subnet_id_server = "${module.subnet.subnet_id_server}"
+  subnet_id_client = "${module.subnet.subnet_id_client}"
   instance_id = "${module.compute.instance_id}"
 }
 
 
 module "floating_ip" {
   source = "../../../../modules/floating_ip"
-  port1 = "${module.port.port1}"
-  port2 = "${module.port.port2}"
+  port1 = "${module.port.port_client}"
   extra_port = "${module.port.extra_port}"
   instance_id = "${module.compute.instance_id}"
 }
+
+
+output "vvip_ip" {value = "${module.floating_ip.vvip_ip}"}
+output "mgmt_ip" {value = "${module.floating_ip.mgmt_ip}"}
+output "app_server_ip" {value = "${module.compute.app_server_ip}"}

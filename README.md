@@ -1,4 +1,4 @@
-# TERRAFORM
+﻿# TERRAFORM
 
 This project contains examples to deploy A10 ADC services with Terraform.
 
@@ -40,6 +40,34 @@ Cloud specific details are mentioned below:
        * Two vThunder instances are provisioned with three NICs on those subnets.
        * The module is located at - a10-terraform/oci/main/new_infra/OCI/util/
 
+ - Openstack:
+    - Existing Infrastructure :
+       * Instance is created within an already existing infrastructure.
+       * Creation of instance requires existing networks, subnets, Routers.
+       * The script accepts input arguments for network name, network id, subnet id of management, server and client network
+       * The module is located at – a10-terraform/openstack/main/standalone/3NIC/existing_infra
+
+    - New infrastructure :
+       * Infrastructure is provisioned from scratch to create an instance.
+       * Custom network is created, within the network, one public and one private subnet is provisioned. Within subnet ports will be created
+       * An Router is provisioned and public subnet is added to Router
+       * A vThunder instance is provisioned with one NIC on a management subnet
+       * The module is located at - a10-terraform/openstack/main/standalone/3NIC/new_infra
+
+ - Azure:
+    - Existing Infrastructure :
+       * Instance is created within an already existing infrastructure.
+       * Creation of instance requires existing networks, subnets, Routers.
+       * The script accepts input arguments for network name, network id, subnet id of management, server and client network
+       * The module is located at – a10-terraform/azure/main/1NIC/existing_infra
+
+    - New infrastructure :
+       * Infrastructure is provisioned from scratch to create an instance.
+       * Custom network is created, within the network, one public and one private subnet is provisioned. Within subnet ports will be created
+       * An Router is provisioned with one NIC on a management subnet
+       * A vThunder instance is provisioned with three ports on each subnets
+       * The module is located at - a10-terraform/azure/main/1NIC/new_infra
+
 
 ## REQUIREMENTS
 
@@ -51,7 +79,7 @@ General prerequisites for the templates are mentioned as below:
 
  For all images used in the marketplace
  If these images are not deployed in the environment before, search for the images in the marketplace and click **Accept Software Terms**.  This appears the first time an image is launched.
-    
+
 # A10 images used:
 - **AWS**:
                  https://aws.amazon.com/marketplace/pp/B01I9BK4ZW?qid=1560841760149&sr=0-2&ref_=srh_res_product_title
@@ -98,7 +126,7 @@ As most of the examples leverage modules ( reusable templates ), first import or
   - In many cases, the modules refer a remote link as the source. Therefore, internet connectivity will be required.
   - **hint**: use below command to make sure your modules are up-to-date.
             ```
-            terraform get -update=true" 
+            terraform get -update=true"
             ```
 
 - terraform plan
@@ -138,7 +166,45 @@ terraform get
 terraform apply           #at terraform apply it will ask you VM ssh public key file path, enter full absolute path with filename
 
 ```
+# Openstack:
+Note:
+```
+#How to generate cloud.yaml file from openstack console
+1) Login to openstack console
+2) Go to Project-> API access
+3) On top corner of right side click to download cloud.yaml file
+```
 
+```
+cd openstack/main/standalone/3NIC/new_infra(or existing_infra)
+export OS_PASSWORD=<YOUR Openstack cloud password>
+terraform init
+terraform plan
+terraform apply
+
+```
+
+# Azure:
+Note:
+```
+#Note: In order to create resources in azure using terraform scritp you need subscription_id, tenant_id, client_id and client secret
+
+Steps:
+for existing Infrastructure:
+
+cd azure/main/existing_infra/1NIC/
+terraform init
+terraform plan
+terraform apply
+
+for new infrastructure:
+
+cd azure/main/new_infra/1NIC/
+terraform init
+terraform plan
+terraform apply
+
+```
 ### REFERENCE LINKS
 
  - https://github.com/hashicorp/best-practices/tree/master/terraform/modules/
