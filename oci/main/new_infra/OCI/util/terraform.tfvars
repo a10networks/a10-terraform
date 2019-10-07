@@ -11,6 +11,7 @@ fingerprint = ""
 
 #vThunder VM details
 vm_display_name = "TF-vThunder"
+vThunder__image_ocid = "ocid1.image.oc1..aaaaaaaanh6fkm63h7n2vhffmt47dxng2aptzs3vzy6m2utfak7idif32vta"
 vm_availability_domain = ""
 vm_shape = "VM.Standard2.8"
 vm_creation_timeout = "5m"

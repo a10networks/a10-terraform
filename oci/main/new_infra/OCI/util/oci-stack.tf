@@ -24,6 +24,8 @@ variable "private_key_password" {
 description = "Private Key Password"
 }
 
+variable "vThunder__image_ocid" {
+}
 variable "fingerprint" {
 description = "fingerprint"
 }
@@ -99,8 +101,9 @@ compartment_id = "${var.compartment_id}"
  vm_display_name = "${var.vm_display_name}"
  vm_creation_timeout = "${var.vm_creation_timeout}"
  vm_primary_vnic_display_name = "${var.vm_primary_vnic_display_name}"
- vm_ssh_public_key_path = "${var.vm_ssh_public_key_path}" 
- app_display_name = "${var.app_display_name}"  
+ vm_ssh_public_key_path = "${var.vm_ssh_public_key_path}"
+ app_display_name = "${var.app_display_name}"
+ vThunder__image_ocid = "${var.vThunder__image_ocid}"
 }
 
 module "nic" {
@@ -111,7 +114,7 @@ module "nic" {
  instance_id = "${module.oci_compute.instance_id}"
  oci_subnet_id3 = "${module.subnet.oci_subnet_id3}"
  client_vnic_display_name = "${var.client_vnic_display_name}"
- client_vnic_private_ip = "${var.client_vnic_private_ip}" 
+ client_vnic_private_ip = "${var.client_vnic_private_ip}"
 }
 
 module "oci_network" {

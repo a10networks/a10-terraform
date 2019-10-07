@@ -60,7 +60,6 @@ type = "list"
 }
 
 resource "aws_instance" "vThunder" {
-  count = "${var.count}"
   ami ="${lookup(var.amis,var.region)}"
   instance_type = "m4.xlarge"
   network_interface {
@@ -84,13 +83,26 @@ resource "aws_instance" "vThunder" {
   availability_zone = "${var.region}a"
 
   key_name = "${var.aws_key_name}"
+
   tags {
-      Name = "bh_vThunder-vm${count.index}"
+      #Name = "bh_vThunder-vm${count.index}"
+      Name = "vthunder-a10-demo"
+
     }
   }
 
 
+  resource "null_resource" "test1" {
 
-  output "vthunder_instance_id" { value = "${aws_instance.vThunder.*.id}"}
-  output "ip" {value = "${aws_instance.vThunder.*.public_ip}"}
-  output "private_ip" {value = "${aws_instance.vThunder.*.private_ip}"}
+    provisioner "local-exec" {
+      command = <<EOT
+
+        ansible-playbook playbook.yml --extra-vars "a10_host='${aws_instance.vThunder.public_ip}' a10_password='${aws_instance.vThunder.id}' slb_server_host='10.0.0.1' slb_service_group_member='10.0.0.1' slb_vritual_server_ip='10.0.0.3' "
+EOT
+    }
+    depends_on = ["aws_instance.vThunder"]
+  }
+
+  output "vthunder_instance_id" { value = "${aws_instance.vThunder.id}"}
+  output "ip" {value = "${aws_instance.vThunder.public_ip}"}
+  output "private_ip" {value = "${aws_instance.vThunder.private_ip}"}

@@ -48,11 +48,14 @@ variable "tenancy_ocid" {
 description = "tenancy ocid"
 }
 
+variable "vThunder__image_ocid" {
+}
+
 data "oci_core_images" "vThuder_image" {
   compartment_id = "${var.tenancy_ocid}"
  }
 locals {
-  vThunder__image_ocid = "ocid1.image.oc1..aaaaaaaai3isjh6znmwpju7bahjzqek2v3w7l2iipffj4gikyfz752f7avqq"
+  vThunder__image_ocid = "${var.vThunder__image_ocid}"
   }
 
 resource "oci_core_instance" "vthunder_vm" {
@@ -107,6 +110,8 @@ resource "oci_core_instance" "app-server" {
     create = "${var.vm_creation_timeout}"
   }
 }
+
+
 
 output "ip" {value = "${oci_core_instance.vthunder_vm.*.public_ip}"}
 output "backend_server_ip" {value = "${element(oci_core_instance.app-server.*.private_ip,0)}"}
