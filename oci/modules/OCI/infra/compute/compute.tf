@@ -2,17 +2,45 @@ variable "app_display_name" {
   default = ""
 }
 
-variable "compartment_id" {
-description = "Compartment OCID"
-default = "adas"
+variable "next_hop_ip" {
+}
+variable "client_vnic_private_ip" {
 }
 
+
+variable "floating_server_private_ip" {
+}
+
+variable "floating_client_private_ip" {
+}
+
+variable "mgmt_default_gateway" {
+}
+
+variable "client_vnic_private_ip2" {
+}
+
+variable "virtual_server_ip" {
+}
+
+variable "virtual_server_ip2" {
+}
+
+variable "compartment_id" {
+description = "Compartment OCID"
+}
+
+variable "vnic_ip1" {
+}
 
 variable "vm_availability_domain" {
 description = "VM availability domain"
 }
 
-variable "vm_display_name" {
+variable "vm_display_name1" {
+description = "VM display name"
+}
+variable "vm_display_name2" {
 description = "VM display name"
 }
 
@@ -50,6 +78,9 @@ description = "tenancy ocid"
 
 variable "vThunder__image_ocid" {
 }
+variable "vm_count" {
+  default = "1"
+}
 
 data "oci_core_images" "vThuder_image" {
   compartment_id = "${var.tenancy_ocid}"
@@ -59,8 +90,9 @@ locals {
   }
 
 resource "oci_core_instance" "vthunder_vm" {
+  count = "${var.vm_count}"
   compartment_id = "${var.compartment_id}"
-  display_name = "${var.vm_display_name}"
+  display_name = "${var.vm_display_name1}"
   availability_domain = "${var.vm_availability_domain}"
 
   source_details {
@@ -113,7 +145,13 @@ resource "oci_core_instance" "app-server" {
 
 
 
-output "ip" {value = "${oci_core_instance.vthunder_vm.*.public_ip}"}
+
+
+
+output "ip" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,1)}"}
+output "ip2" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,2)}"}
+
 output "backend_server_ip" {value = "${element(oci_core_instance.app-server.*.private_ip,0)}"}
 
-output "instance_id" { value = "${oci_core_instance.vthunder_vm.id}" }
+output "instance_id" { value = "${element(oci_core_instance.vthunder_vm.*.id,1)}" }
+output "instance_id2" { value = "${element(oci_core_instance.vthunder_vm.*.id,2)}" }
