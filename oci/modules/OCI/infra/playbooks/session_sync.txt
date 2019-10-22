@@ -1,1 +1,2 @@
 vrrp-a session-sync enable
+write memory

@@ -58,44 +58,35 @@ resource "null_resource" "vthunder2_up" {
     }
 }
 
-resource "null_resource" "test1" {
+resource "null_resource" "active_VT_1" {
   provisioner "local-exec" {
     command = <<EOT
           sleep 6m;
-          ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_wo_vrrp.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip}'  a10_host2='${var.vthunder_vm_public_ip2}' a10_password='${element(split(".",var.password1), 4)}' slb_server_host='${var.slb_server_host}' server_nic_IP='${var.virtual_server_ip2}' server_nic_IP2='${var.virtual_server_ip}' virtual_server='${var.vnic_ip1}' client_nic_ip='${var.client_vnic_private_ip2}' next_hop_ip='${var.next_hop_ip}' floating_client_private_ip='${var.floating_server_private_ip}'  floating_server_private_ip='${var.floating_client_private_ip}' device_id='1' mgmt_default_gateway='${var.mgmt_default_gateway}' ";
 
-          ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip}'  a10_host2='${var.vthunder_vm_public_ip2}' a10_password='${element(split(".",var.password1), 4)}' slb_server_host='${var.slb_server_host}' server_nic_IP='${var.virtual_server_ip}' server_nic_IP2='${var.virtual_server_ip2}' virtual_server='${var.vnic_ip1}' client_nic_ip='${var.client_vnic_private_ip}' next_hop_ip='${var.next_hop_ip}' floating_client_private_ip='${var.floating_server_private_ip}'  floating_server_private_ip='${var.floating_client_private_ip}' device_id='1' ";
+          ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_slb.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip}' a10_password='${element(split(".",var.password1), 4)}' slb_server_host='${var.slb_server_host}' server_nic_IP='${var.virtual_server_ip}' server_nic_IP2='${var.virtual_server_ip2}' virtual_server='${var.vnic_ip1}' client_nic_ip='${var.client_vnic_private_ip}' next_hop_ip='${var.next_hop_ip}' floating_client_private_ip='${var.floating_client_private_ip}'  floating_server_private_ip='${var.floating_server_private_ip}' device_id='1' mgmt_default_gateway='${var.mgmt_default_gateway}' ";
+
+          ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_vrrp.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip}' a10_password='${element(split(".",var.password1), 4)}' slb_server_host='${var.slb_server_host}' server_nic_IP='${var.virtual_server_ip}' server_nic_IP2='${var.virtual_server_ip2}' virtual_server='${var.vnic_ip1}' client_nic_ip='${var.client_vnic_private_ip}' next_hop_ip='${var.next_hop_ip}' floating_client_private_ip='${var.floating_client_private_ip}'  floating_server_private_ip='${var.floating_server_private_ip}' device_id='1' ";
+
+          ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_harmony_ctrl.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip}' a10_password='${element(split(".",var.password1), 4)}' ";
 
 EOT
   }
   depends_on = ["null_resource.vthunder1_up"]
 }
 
-resource "null_resource" "test2" {
+resource "null_resource" "standby_VT_1" {
   provisioner "local-exec" {
     command = <<EOT
     sleep 6m;
-    ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_wo_vrrp.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip2}' a10_host2='${var.vthunder_vm_public_ip}' a10_password='${element(split(".",var.password2), 4)}' slb_server_host='${var.slb_server_host}' server_nic_IP='${var.virtual_server_ip2}' server_nic_IP2='${var.virtual_server_ip}' virtual_server='${var.vnic_ip1}' client_nic_ip='${var.client_vnic_private_ip2}' next_hop_ip='${var.next_hop_ip}'
-    floating_client_private_ip='${var.floating_server_private_ip}' floating_server_private_ip='${var.floating_client_private_ip}' device_id='2'  mgmt_default_gateway='${var.mgmt_default_gateway}' ";
+    ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_slb.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip2}' a10_password='${element(split(".",var.password2), 4)}' slb_server_host='${var.slb_server_host}' server_nic_IP='${var.virtual_server_ip2}' server_nic_IP2='${var.virtual_server_ip}' virtual_server='${var.vnic_ip1}' client_nic_ip='${var.client_vnic_private_ip2}' next_hop_ip='${var.next_hop_ip}'
+    floating_client_private_ip='${var.floating_client_private_ip}' floating_server_private_ip='${var.floating_server_private_ip}' device_id='2'  mgmt_default_gateway='${var.mgmt_default_gateway}' ";
 
-      ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip2}' a10_host2='${var.vthunder_vm_public_ip2}' a10_password='${element(split(".",var.password2), 4)}' slb_server_host='${var.slb_server_host}' server_nic_IP='${var.virtual_server_ip2}' server_nic_IP2='${var.virtual_server_ip}' virtual_server='${var.vnic_ip1}' client_nic_ip='${var.client_vnic_private_ip2}' next_hop_ip='${var.next_hop_ip}'
-      floating_client_private_ip='${var.floating_server_private_ip}' floating_server_private_ip='${var.floating_client_private_ip}' device_id='2'";
+      ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_vrrp.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip2}' a10_password='${element(split(".",var.password2), 4)}' slb_server_host='${var.slb_server_host}' server_nic_IP='${var.virtual_server_ip2}' server_nic_IP2='${var.virtual_server_ip}' virtual_server='${var.vnic_ip1}' client_nic_ip='${var.client_vnic_private_ip2}' next_hop_ip='${var.next_hop_ip}'
+      floating_client_private_ip='${var.floating_client_private_ip}' floating_server_private_ip='${var.floating_server_private_ip}' device_id='2'";
+
+      ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_harmony_ctrl.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip2}' a10_password='${element(split(".",var.password2), 4)}' ";
 
 EOT
   }
   depends_on = ["null_resource.vthunder2_up"]
 }
-
-
-
-resource "null_resource" "test3" {
-  provisioner "local-exec" {
-    command = <<EOT
-    ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_backup.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip}' a10_password='${element(split(".",var.password1), 4)}' ";
-    ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_backup.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip2}' a10_password='${element(split(".",var.password2), 4)}' ";
-
-EOT
-      }
-    depends_on = ["null_resource.test2"]
-
-    }

@@ -1,9 +1,0 @@
-harmony-controller profile
-host 129.213.157.228 use-mgmt-port
-provider root
-user-name scampbell@a10networks.com
-password admin123
-thunder-mgmt-ip vThunder mgmt ip
-register
-availability-zone pune
-region india

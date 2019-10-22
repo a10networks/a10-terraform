@@ -50,7 +50,7 @@ variable "instance_id" {
   description = "instance_id"
 }
 
-resource "oci_core_vnic_attachment" "server_vnic" {
+resource "oci_core_vnic_attachment" "client_vnic" {
     #Required
     create_vnic_details {
         #Required
@@ -69,30 +69,30 @@ resource "oci_core_vnic_attachment" "server_vnic" {
     display_name = "${var.server_vnic_display_name}"
 }
 
-resource "oci_core_private_ip" "test_private_ip" {
+resource "oci_core_private_ip" "client_vnic_private_ip" {
     #Required
-    vnic_id = "${oci_core_vnic_attachment.server_vnic.vnic_id}"
+    vnic_id = "${oci_core_vnic_attachment.client_vnic.vnic_id}"
 
 }
 
-resource "oci_core_private_ip" "floating_server_private_ip" {
+resource "oci_core_private_ip" "floating_client_private_ip" {
     #Required
-    vnic_id = "${oci_core_vnic_attachment.server_vnic.vnic_id}"
-    depends_on = ["oci_core_private_ip.test_private_ip"]
+    vnic_id = "${oci_core_vnic_attachment.client_vnic.vnic_id}"
+    depends_on = ["oci_core_private_ip.client_vnic_private_ip"]
 }
 
-resource "oci_core_public_ip" "pubip1" {
+resource "oci_core_public_ip" "vip_public_ip" {
 compartment_id = "${var.compartment_id}"
 display_name   = "reserved public ip 1"
 lifetime       = "RESERVED"
-private_ip_id  = "${oci_core_private_ip.test_private_ip.id}"
-#defined_tags   = "${oci_core_private_ip.test_private_ip.defined_tags}"
+private_ip_id  = "${oci_core_private_ip.client_vnic_private_ip.id}"
+#defined_tags   = "${oci_core_private_ip.client_vnic_private_ip.defined_tags}"
 }
 
 
 
-resource "oci_core_vnic_attachment" "client_vnic" {
-depends_on = ["oci_core_vnic_attachment.server_vnic"]
+resource "oci_core_vnic_attachment" "server_vnic" {
+depends_on = ["oci_core_vnic_attachment.client_vnic"]
     #Required
     create_vnic_details {
         #Required
@@ -111,16 +111,11 @@ depends_on = ["oci_core_vnic_attachment.server_vnic"]
     #nic_index = "${var.client_vnic_index}"
 }
 
-resource "oci_core_private_ip" "floating_client_private_ip" {
+resource "oci_core_private_ip" "floating_server_private_ip" {
     #Required
-    depends_on = ["oci_core_vnic_attachment.client_vnic"]
-    vnic_id = "${oci_core_vnic_attachment.client_vnic.vnic_id}"
-
-}
-
-data "oci_core_vnic" "test_vnic_server" {
-    #Required
+    depends_on = ["oci_core_vnic_attachment.server_vnic"]
     vnic_id = "${oci_core_vnic_attachment.server_vnic.vnic_id}"
+
 }
 
 data "oci_core_vnic" "test_vnic_client" {
@@ -128,7 +123,10 @@ data "oci_core_vnic" "test_vnic_client" {
     vnic_id = "${oci_core_vnic_attachment.client_vnic.vnic_id}"
 }
 
-
+data "oci_core_vnic" "test_vnic_server" {
+    #Required
+    vnic_id = "${oci_core_vnic_attachment.server_vnic.vnic_id}"
+}
 
 
 #2nd Vthuder NIC settings
@@ -152,32 +150,6 @@ resource "oci_core_vnic_attachment" "server_vnic2" {
     display_name = "${var.server_vnic_display_name}"
 }
 
-# resource "oci_core_private_ip" "test_private_ip2" {
-#     #Required
-#     depends_on = ["oci_core_vnic_attachment.server_vnic2"]
-#     vnic_id = "${oci_core_vnic_attachment.server_vnic2.vnic_id}"
-#
-# }
-
-
-#
-# resource "oci_core_public_ip" "pubip2" {
-# compartment_id = "${var.compartment_id}"
-# display_name   = "reserved public ip 2"
-# lifetime       = "RESERVED"
-# private_ip_id  = "${oci_core_private_ip.test_private_ip2.id}"
-# #defined_tags   = "${oci_core_private_ip.test_private_ip.defined_tags}"
-# }
-
-/*
-
-resource "oci_core_private_ip" "floating_server_private_ip2" {
-    #Required
-    vnic_id = "${oci_core_vnic_attachment.server_vnic2.vnic_id}"
-    depends_on = ["oci_core_private_ip.test_private_ip2"]
-}
-
-*/
 resource "oci_core_vnic_attachment" "client_vnic2" {
 depends_on = ["oci_core_vnic_attachment.server_vnic2"]
     #Required
@@ -198,31 +170,16 @@ depends_on = ["oci_core_vnic_attachment.server_vnic2"]
     #nic_index = "${var.client_vnic_index}"
 }
 
-/*
 
-resource "oci_core_private_ip" "floating_client_private_ip2" {
-    #Required
-    depends_on = ["oci_core_vnic_attachment.client_vnic2"]
-    vnic_id = "${oci_core_vnic_attachment.client_vnic2.vnic_id}"
+output "vnic_id" {value = "${oci_core_vnic_attachment.client_vnic.vnic_id}"}
 
-}
-*/
+output "eth1_second_private_ip" {value = "${data.oci_core_vnic.test_vnic_client.private_ip_address}"}
 
+output "eth2_private_ip" {value = "${data.oci_core_vnic.test_vnic_server.private_ip_address}"}
 
+output "eth1_sec_private_ip" {value = "${oci_core_private_ip.client_vnic_private_ip.ip_address}"}
 
-output "vnic_id" {value = "${oci_core_vnic_attachment.server_vnic.vnic_id}"}
-
-output "eth1_second_private_ip" {value = "${data.oci_core_vnic.test_vnic_server.private_ip_address}"}
-
-output "eth2_private_ip" {value = "${data.oci_core_vnic.test_vnic_client.private_ip_address}"}
-
-output "eth1_sec_private_ip" {value = "${oci_core_private_ip.test_private_ip.ip_address}"}
-
-#output "eth1_sec_private_ip2" {value = "${oci_core_private_ip.test_private_ip2.ip_address}"}
 
 #floating IP
-output "floating_server_private_ip" {value = "${oci_core_private_ip.floating_server_private_ip.ip_address}"}
 output "floating_client_private_ip" {value = "${oci_core_private_ip.floating_client_private_ip.ip_address}"}
-
-#output "floating_server_private_ip2" {value = "${oci_core_private_ip.floating_server_private_ip2.ip_address}"}
-#output "floating_client_private_ip2" {value = "${oci_core_private_ip.floating_client_private_ip2.ip_address}"}
+output "floating_server_private_ip" {value = "${oci_core_private_ip.floating_server_private_ip.ip_address}"}

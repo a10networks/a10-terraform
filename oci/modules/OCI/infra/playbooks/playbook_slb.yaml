@@ -46,8 +46,8 @@
       a10_host: "{{ a10_host }}"
       a10_username: "admin"
       a10_password: "{{ a10_password }}"
-      file_path: "/opt/demo/a10-terraform/oci/main/new_infra/OCI/util/import.txt" #absolute path
-      key_path: "/opt/demo/a10-terraform/oci/main/new_infra/OCI/util/smita_key.pem" #absolute path
+      file_path: "import.txt" #absolute path
+      key_path: "/home/smita/A10/a10-terraform-smita/oci/main/new_infra/OCI/util/smita_key.pem" #absolute path
 
   # - name: a10_interface_management
   #   a10_interface_management:
@@ -167,6 +167,6 @@
       a10_host: "{{ a10_host }}"
       a10_username: "admin"
       a10_password: "{{ a10_password }}"
-      file_path: "/opt/demo/a10-terraform/oci/main/new_infra/OCI/util/configure.txt"
-      key_path: "/opt/demo/a10-terraform/oci/main/new_infra/OCI/util/smita_key.pem"
+      file_path: "configure.txt"
+      key_path: "/home/smita/A10/a10-terraform-smita/oci/main/new_infra/OCI/util/smita_key.pem"
       ip: "{{ a10_host }}"

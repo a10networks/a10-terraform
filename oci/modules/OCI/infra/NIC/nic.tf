@@ -3,13 +3,10 @@ variable "app_display_name" {
   default = ""
 }
 
-
-
 variable "compartment_id" {
 description = "Compartment OCID"
 default = "adas"
 }
-
 
 variable "server_vnic_private_ip" {
 description = "server VNIC private ip"
@@ -30,7 +27,6 @@ variable "client_vnic_display_name" {
 description = "client VNIC display name"
 }
 
-
 variable "oci_subnet_id2" {
   description = "oci_subnet_id"
 }
@@ -43,7 +39,8 @@ variable "instance_id" {
   description = "instance_id"
 }
 
-resource "oci_core_vnic_attachment" "server_vnic" {
+#smita changes start
+resource "oci_core_vnic_attachment" "client_vnic" {
     #Required
     create_vnic_details {
         #Required
@@ -62,15 +59,14 @@ resource "oci_core_vnic_attachment" "server_vnic" {
     display_name = "${var.server_vnic_display_name}"
 }
 
+
 resource "oci_core_private_ip" "test_private_ip" {
     #Required
-    vnic_id = "${oci_core_vnic_attachment.server_vnic.vnic_id}"
-
+    vnic_id = "${oci_core_vnic_attachment.client_vnic.vnic_id}"   #smita cchange
 }
 
-
-resource "oci_core_vnic_attachment" "client_vnic" {
-depends_on = ["oci_core_vnic_attachment.server_vnic"]
+resource "oci_core_vnic_attachment" "server_vnic" {
+depends_on = ["oci_core_vnic_attachment.client_vnic"]
     #Required
     create_vnic_details {
         #Required
@@ -89,21 +85,22 @@ depends_on = ["oci_core_vnic_attachment.server_vnic"]
     #nic_index = "${var.client_vnic_index}"
 }
 
-data "oci_core_vnic" "test_vnic_server" {
-    #Required
-    vnic_id = "${oci_core_vnic_attachment.server_vnic.vnic_id}"
-}
-
 data "oci_core_vnic" "test_vnic_client" {
     #Required
     vnic_id = "${oci_core_vnic_attachment.client_vnic.vnic_id}"
 }
 
 
+data "oci_core_vnic" "test_vnic_server" {
+    #Required
+    vnic_id = "${oci_core_vnic_attachment.server_vnic.vnic_id}"
+}
+
+
 output "vnic_id" {value = "${oci_core_vnic_attachment.server_vnic.vnic_id}"}
 
-output "eth1_second_private_ip" {value = "${data.oci_core_vnic.test_vnic_server.private_ip_address}"}
+output "eth1_second_private_ip" {value = "${data.oci_core_vnic.test_vnic_client.private_ip_address}"}
 
-output "eth2_private_ip" {value = "${data.oci_core_vnic.test_vnic_client.private_ip_address}"}
+output "eth2_private_ip" {value = "${data.oci_core_vnic.test_vnic_server.private_ip_address}"}
 
 output "eth1_sec_private_ip" {value = "${oci_core_private_ip.test_private_ip.ip_address}"}

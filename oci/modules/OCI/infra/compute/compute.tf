@@ -92,7 +92,9 @@ locals {
 resource "oci_core_instance" "vthunder_vm" {
   count = "${var.vm_count}"
   compartment_id = "${var.compartment_id}"
-  display_name = "${var.vm_display_name1}"
+
+  display_name = "vthunder-vm-${count.index}"
+
   availability_domain = "${var.vm_availability_domain}"
 
   source_details {
@@ -142,6 +144,12 @@ resource "oci_core_instance" "app-server" {
     create = "${var.vm_creation_timeout}"
   }
 }
+
+
+
+#bastion host temporary
+
+
 
 
 
