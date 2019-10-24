@@ -44,8 +44,8 @@
       a10_protocol: "https"
       peer:
         ip_peer_address_cfg:
-        - ip_peer_address: "{{ server_nic_IP }}"
-        - ip_peer_address: "{{ server_nic_IP2 }}"
+        - ip_peer_address: "{{ client_primary_private_IP }}"
+        - ip_peer_address: "{{ client_primary_private_IP2 }}"
   - name: a10_config
     a10_configure:
       a10_host: "{{ a10_host }}"

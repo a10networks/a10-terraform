@@ -64,10 +64,6 @@ variable "server_vnic_index" {
 description = "server VNIC index"
 }
 
-variable "client_vnic_private_ip" {
-description = "client VNIC private ip"
-}
-
 variable "client_vnic_display_name" {
 description = "client VNIC display name"
 }
@@ -110,8 +106,8 @@ compartment_id = "${var.compartment_id}"
  vm_display_name = "${var.vm_display_name}"
  vm_creation_timeout = "${var.vm_creation_timeout}"
  vm_primary_vnic_display_name = "${var.vm_primary_vnic_display_name}"
- vm_ssh_public_key_path = "${var.vm_ssh_public_key_path}" 
- app_display_name = "${var.app_display_name}"  
+ vm_ssh_public_key_path = "${var.vm_ssh_public_key_path}"
+ app_display_name = "${var.app_display_name}"
 }
 
 module "nic" {
@@ -122,7 +118,7 @@ module "nic" {
  instance_id = "${module.oci_compute.instance_id}"
  oci_subnet_id3 = "${var.oci_subnet_id3}"
  client_vnic_display_name = "${var.client_vnic_display_name}"
- client_vnic_private_ip = "${var.client_vnic_private_ip}" 
+ #client_vnic_private_ip = "${var.client_vnic_private_ip}"
 }
 
 output "vnic ID" {value = "${module.nic.vnic_id}" }
