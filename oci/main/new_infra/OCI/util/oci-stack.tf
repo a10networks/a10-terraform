@@ -114,10 +114,7 @@ module "nic" {
  instance_id = "${module.oci_compute.instance_id}"
  oci_subnet_id3 = "${module.subnet.oci_subnet_id3}"
  client_vnic_display_name = "${var.client_vnic_display_name}"
-<<<<<<< HEAD
-=======
  client_vnic_private_ip = "${var.client_vnic_private_ip}"
->>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 }
 
 module "oci_network" {

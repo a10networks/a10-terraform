@@ -223,7 +223,3 @@ Please submit bug reports and feature requests via GitHub issues. When reporting
 ## Contact
 
 If you have a question that cannot be submitted via GitHub Issues, email support@a10networks.com with "a10-terraform" in the subject line.
-<<<<<<< HEAD
-# Terraform_VT
-=======
->>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
