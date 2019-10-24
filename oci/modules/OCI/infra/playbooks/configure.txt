@@ -1,0 +1,1 @@
+configure sync all private-key smita_key.pem

@@ -1,0 +1,6 @@
+*.terraform
+*.backup
+*.tfstate
+*.pem
+*.pub
+clouds.yml

@@ -1,0 +1,89 @@
+- name: Create a10_harmony_controller_profile example playbook
+  connection: local
+  hosts: localhost
+  tasks:
+  - name: add DNS entry
+    a10_ip_dns_primary:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_protocol: "https"
+      a10_port: "443"
+      ip_v4_addr: "8.8.8.8"
+  - name: Authenticate via token
+    a10_glm:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_protocol: "https"
+      a10_port: "443"
+      token: "vTh7aa90d73d"
+      use_mgmt_port: 1
+      enable_requests: "true"
+      allocate_bandwidth: 1000
+  - name: Send License Request
+    a10_glm:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_protocol: "https"
+      a10_port: "443"
+      send:
+        license_request: "true"
+
+  - name: Create a10_harmony_controller_profile instance
+    a10_harmony_controller_profile:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      host: "129.213.157.228" # mgmt IP
+      port: "8443"     #fixed port
+      user_name: "scampbell@a10networks.com" #profile name of harmony controller
+      secret_value: "admin123"
+      provider: "root"
+      thunder_mgmt_ip:
+        ip_address: "{{ a10_host }}"
+      action: "register"
+      use_mgmt_port: "true"
+      region: "India"
+      availability_zone: "Pune"
+
+  - name: de-register
+    a10_harmony_controller_profile:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      host: "129.213.157.228" # mgmt IP
+      port: "8443"     #fixed port
+      user_name: "scampbell@a10networks.com" #profile name of harmony controller
+      secret_value: "admin123"
+      provider: "root"
+      thunder_mgmt_ip:
+        ip_address: "{{ a10_host }}"
+      action: "deregister"
+      use_mgmt_port: "true"
+      region: "India"
+      availability_zone: "Pune"
+
+  - name: Create a10_harmony_controller_profile instance
+    a10_harmony_controller_profile:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      host: "129.213.157.228" # mgmt IP
+      port: "8443"     #fixed port
+      user_name: "scampbell@a10networks.com" #profile name of harmony controller
+      secret_value: "admin123"
+      provider: "root"
+      thunder_mgmt_ip:
+        ip_address: "{{ a10_host }}"
+      action: "register"
+      use_mgmt_port: "true"
+      region: "India"
+      availability_zone: "Pune"

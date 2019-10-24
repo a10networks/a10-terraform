@@ -1,0 +1,63 @@
+- name: a10 demo playbook
+  connection: local
+  hosts: localhost
+  tasks:
+  - name: Create a10_vrrp_a_common device 1
+    a10_vrrp_a_common:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      set_id: 1
+      device_id: "{{ device_id }}"
+      action: "enable"
+  - name: Create a10_vrrp_a_vrid instance
+    a10_vrrp_a_vrid:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      vrid_val: 0
+      floating_ip:
+        ip_address_cfg:
+        - ip_address: "{{ floating_client_private_ip  }}"
+        - ip_address: "{{ floating_server_private_ip  }}"
+      blade_parameters:
+        priority: 250
+  - name: Create a10_vrrp_a_interface_ethernet instance
+    a10_vrrp_a_interface_ethernet:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      ethernet_val: "1"
+      both: "true"
+  - name: Create a10_vrrp_a_peer_group instance
+    a10_vrrp_a_peer_group:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      peer:
+        ip_peer_address_cfg:
+        - ip_peer_address: "{{ client_primary_private_IP }}"
+        - ip_peer_address: "{{ client_primary_private_IP2 }}"
+  - name: a10_config
+    a10_configure:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      file_path: "configure.txt"
+      key_path: "/home/smita/A10/a10-terraform-smita/oci/main/new_infra/OCI/util/smita_key.pem"
+      ip: "{{ a10_host }}"
+  - name: session sync
+    a10_command:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      file_path: "session_sync.txt"
+      key_path: "/home/smita/A10/a10-terraform-smita/oci/main/new_infra/OCI/util/smita_key.pem"
