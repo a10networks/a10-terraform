@@ -2,10 +2,43 @@ variable "app_display_name" {
   default = ""
 }
 
+<<<<<<< HEAD
+=======
+variable "next_hop_ip" {
+}
+variable "client_vnic_private_ip" {
+}
+
+
+variable "floating_server_private_ip" {
+}
+
+variable "floating_client_private_ip" {
+}
+
+variable "mgmt_default_gateway" {
+}
+
+variable "client_vnic_private_ip2" {
+}
+
+variable "virtual_server_ip" {
+}
+
+variable "virtual_server_ip2" {
+}
+
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 variable "compartment_id" {
 description = "Compartment OCID"
 }
 
+<<<<<<< HEAD
+=======
+variable "vnic_ip1" {
+}
+
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 variable "vm_availability_domain" {
 description = "VM availability domain"
 }
@@ -58,16 +91,26 @@ variable "vm_count" {
 data "oci_core_images" "vThuder_image" {
   compartment_id = "${var.tenancy_ocid}"
  }
+<<<<<<< HEAD
 
 locals {
   vThunder__image_ocid = "${var.vThunder__image_ocid}"
 }
+=======
+locals {
+  vThunder__image_ocid = "${var.vThunder__image_ocid}"
+  }
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 
 resource "oci_core_instance" "vthunder_vm" {
   count = "${var.vm_count}"
   compartment_id = "${var.compartment_id}"
 
+<<<<<<< HEAD
   display_name = "vthunder-vm-${count.index + 1}"
+=======
+  display_name = "vthunder-vm-${count.index}"
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 
   availability_domain = "${var.vm_availability_domain}"
 
@@ -119,6 +162,20 @@ resource "oci_core_instance" "app-server" {
   }
 }
 
+<<<<<<< HEAD
+=======
+
+
+#bastion host temporary
+
+
+
+
+
+
+
+
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 output "ip" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,1)}"}
 output "ip2" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,2)}"}
 

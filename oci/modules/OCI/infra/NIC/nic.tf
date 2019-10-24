@@ -75,6 +75,10 @@ depends_on = ["oci_core_vnic_attachment.client_vnic"]
         #Optional
 		assign_public_ip = false
         display_name = "${var.client_vnic_display_name}"
+<<<<<<< HEAD
+=======
+        private_ip = "${var.client_vnic_private_ip}"
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
         skip_source_dest_check = true
     }
     instance_id = "${var.instance_id}"

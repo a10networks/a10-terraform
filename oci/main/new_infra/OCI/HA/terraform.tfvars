@@ -1,4 +1,5 @@
 #Provider details
+<<<<<<< HEAD
 tenancy_ocid = ""
 user_ocid = ""
 compartment_id = "" #QA-BLR
@@ -17,6 +18,17 @@ subnet_cidr = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24" ]
 #VM details
 
 active_VT_count = "1"
+=======
+tenancy_ocid =
+user_ocid =
+compartment_id =
+region = "us-ashburn-1"
+
+#Login details
+private_key_path =
+private_key_password =
+fingerprint =
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 
 #vThunder VM details
 vm_display_name1 = "TF-vThunder01"
@@ -31,12 +43,20 @@ vm_ssh_public_key_path = "/home/smita/A10/keys/smita_key.pub"
 
 #Secondary VNIC details - server
 #1st vThunder details
+<<<<<<< HEAD
 #server_vnic_private_ip = "10.0.2.10"
+=======
+server_vnic_private_ip = "10.0.2.10"
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 server_vnic_display_name = "server-facing"
 server_vnic_index = "1"
 
 #Secondary VNIC details - client
+<<<<<<< HEAD
 #client_vnic_private_ip = "10.0.3.10"
+=======
+client_vnic_private_ip = "10.0.3.10"
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 client_vnic_display_name = "client-facing"
 client_vnic_index = "2"
 

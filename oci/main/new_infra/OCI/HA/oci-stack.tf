@@ -64,6 +64,7 @@ variable "vm_creation_timeout" {
 description = "VM creation timeout"
 }
 
+<<<<<<< HEAD
 #variable "server_vnic_private_ip" {
 #description = "server VNIC private ip"
 #}
@@ -71,6 +72,17 @@ description = "VM creation timeout"
 
 #variable "server_vnic_private_ip2" {
 #}
+=======
+variable "server_vnic_private_ip" {
+description = "server VNIC private ip"
+}
+
+variable "client_vnic_private_ip2" {
+}
+
+variable "server_vnic_private_ip2" {
+}
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 
 variable "server_vnic_display_name" {
 description = "server VNIC display name"
@@ -80,6 +92,13 @@ variable "server_vnic_index" {
 description = "server VNIC index"
 }
 
+<<<<<<< HEAD
+=======
+variable "client_vnic_private_ip" {
+description = "client VNIC private ip"
+}
+
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 variable "client_vnic_display_name" {
 description = "client VNIC display name"
 }
@@ -89,6 +108,7 @@ description = "client VNIC index"
 }
 
 
+<<<<<<< HEAD
 variable "vcn_cidr" {
 description = "VCN CIDR range"
 }
@@ -100,6 +120,8 @@ description = "Subnet CIDR list"
 
 
 
+=======
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 provider "oci" {
   version          = ">= 3.24.0"
   region           = "${var.region}"
@@ -127,18 +149,41 @@ compartment_id = "${var.compartment_id}"
  vm_ssh_public_key_path = "${var.vm_ssh_public_key_path}"
  app_display_name = "${var.app_display_name}"
  vThunder__image_ocid = "${var.vThunder__image_ocid}"
+<<<<<<< HEAD
+=======
+ vnic_ip1 =  "${module.nic.eth1_sec_private_ip}"
+ virtual_server_ip = "${var.server_vnic_private_ip}"
+ virtual_server_ip2 = "${var.server_vnic_private_ip2}"
+ client_vnic_private_ip2 = "${var.client_vnic_private_ip2}"
+ client_vnic_private_ip = "${var.client_vnic_private_ip}"
+ next_hop_ip = "${var.next_hop_ip}"
+ floating_client_private_ip = "${module.nic.floating_client_private_ip}"
+ floating_server_private_ip = "${module.nic.floating_server_private_ip}"
+ mgmt_default_gateway = "${var.mgmt_default_gateway}"
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 }
 
 module "nic" {
  source = "../../../../modules/OCI/infra/NIC-standby"
  oci_subnet_id2 = "${module.subnet.oci_subnet_id2}"
  server_vnic_display_name = "${var.client_vnic_display_name}"
+<<<<<<< HEAD
+=======
+ server_vnic_private_ip = "${var.server_vnic_private_ip}"
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
  instance_id = "${module.oci_compute.instance_id}"
  instance_id2 = "${module.oci_compute.instance_id2}"
  compartment_id = "${var.compartment_id}"
  oci_subnet_id3 = "${module.subnet.oci_subnet_id3}"
  client_vnic_display_name = "${var.server_vnic_display_name}"
+<<<<<<< HEAD
  }
+=======
+ client_vnic_private_ip = "${var.client_vnic_private_ip}"
+ server_vnic_private_ip2 = "${var.server_vnic_private_ip2}"
+ client_vnic_private_ip2 = "${var.client_vnic_private_ip2}"
+}
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 
 
 module "playbooks" {
@@ -147,6 +192,7 @@ module "playbooks" {
   vthunder_vm_public_ip2 = "${module.oci_compute.ip2}"
   password1 = "${element(split(".",module.oci_compute.instance_id),4)}"
   password2 = "${element(split(".",module.oci_compute.instance_id2),4)}"
+<<<<<<< HEAD
   instance_id = "${module.oci_compute.instance_id}"
   instance_id2 = "${module.oci_compute.instance_id2}"
 
@@ -171,6 +217,25 @@ module "oci_network" {
    source = "../../../../modules/OCI/infra/vcn"
   compartment_id = "${var.compartment_id}"
   vcn_cidr = "${var.vcn_cidr}"
+=======
+  slb_server_host = "${module.oci_compute.backend_server_ip}"
+  virtual_server_ip = "${var.server_vnic_private_ip}"
+  virtual_server_ip2 = "${var.server_vnic_private_ip2}"
+  vnic_ip1 =  "${module.nic.eth1_sec_private_ip}"
+  next_hop_ip = "${var.next_hop_ip}"
+  floating_client_private_ip = "${module.nic.floating_client_private_ip}"
+  floating_server_private_ip = "${module.nic.floating_server_private_ip}"
+  mgmt_default_gateway = "${var.mgmt_default_gateway}"
+  client_vnic_private_ip2 = "${var.client_vnic_private_ip2}"
+  client_vnic_private_ip = "${var.client_vnic_private_ip}"
+  instance_id = "${module.oci_compute.instance_id}"
+  instance_id2 = "${module.oci_compute.instance_id2}"
+}
+
+module "oci_network" {
+   source = "../../../../modules/OCI/infra/vcn"
+  compartment_id = "${var.compartment_id}"
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 }
 
 module "igw" {
@@ -183,7 +248,10 @@ module "subnet" {
 source = "../../../../modules/OCI/infra/subnet"
 compartment_id = "${var.compartment_id}"
 vcn_id = "${module.oci_network.id}"
+<<<<<<< HEAD
 subnet_cidr = "${var.subnet_cidr}"
+=======
+>>>>>>> 0c0f5adebe9a3d7bd8eeeb07581f184dd8545b46
 vm_availability_domain = "${var.vm_availability_domain}"
 default_dhcp_options_id = "${module.oci_network.default_dhcp_options_id}"
 route_table_id = "${module.route.route_table_id}"
