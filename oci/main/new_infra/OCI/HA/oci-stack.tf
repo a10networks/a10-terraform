@@ -40,14 +40,6 @@ variable "vm_availability_domain" {
 description = "VM availability domain"
 }
 
-variable "vm_display_name1" {
-description = "VM display name"
-}
-
-variable "vm_display_name2" {
-description = "VM display name"
-}
-
 variable "vm_shape" {
 description = "VM shape"
 }
@@ -120,8 +112,6 @@ compartment_id = "${var.compartment_id}"
  oci_subnet_id3 = "${module.subnet.oci_subnet_id3}"
  vm_availability_domain = "${var.vm_availability_domain}"
  vm_shape = "${var.vm_shape}"
- vm_display_name1 = "${var.vm_display_name1}"
- vm_display_name2 = "${var.vm_display_name2}"
  vm_creation_timeout = "${var.vm_creation_timeout}"
  vm_primary_vnic_display_name = "${var.vm_primary_vnic_display_name}"
  vm_ssh_public_key_path = "${var.vm_ssh_public_key_path}"
@@ -130,7 +120,7 @@ compartment_id = "${var.compartment_id}"
 }
 
 module "nic" {
- source = "../../../../modules/OCI/infra/NIC-standby"
+ source = "../../../../modules/OCI/infra/NIC"
  oci_subnet_id2 = "${module.subnet.oci_subnet_id2}"
  server_vnic_display_name = "${var.client_vnic_display_name}"
  instance_id = "${module.oci_compute.instance_id}"

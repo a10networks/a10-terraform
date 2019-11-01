@@ -10,13 +10,6 @@ variable "vm_availability_domain" {
 description = "VM availability domain"
 }
 
-variable "vm_display_name1" {
-description = "VM display name"
-}
-variable "vm_display_name2" {
-description = "VM display name"
-}
-
 variable "vm_shape" {
 description = "VM shape"
 }
@@ -119,10 +112,10 @@ resource "oci_core_instance" "app-server" {
   }
 }
 
-output "ip" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,1)}"}
-output "ip2" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,2)}"}
+output "ip" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,0)}"}
+output "ip2" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,1)}"}
 
 output "backend_server_ip" {value = "${element(oci_core_instance.app-server.*.private_ip,0)}"}
 
-output "instance_id" { value = "${element(oci_core_instance.vthunder_vm.*.id,1)}" }
-output "instance_id2" { value = "${element(oci_core_instance.vthunder_vm.*.id,2)}" }
+output "instance_id" { value = "${element(oci_core_instance.vthunder_vm.*.id,0)}" }
+output "instance_id2" { value = "${element(oci_core_instance.vthunder_vm.*.id,1)}" }
