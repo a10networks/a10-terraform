@@ -107,7 +107,7 @@ module "oci_compute" {
   vm_count = "2"
 tenancy_ocid = "${var.tenancy_ocid}"
 compartment_id = "${var.compartment_id}"
- source = "../../../../modules/OCI/infra/compute"
+ source = "../../../modules/OCI/infra/compute"
  oci_subnet_id1 = "${module.subnet.oci_subnet_id1}"
  oci_subnet_id3 = "${module.subnet.oci_subnet_id3}"
  vm_availability_domain = "${var.vm_availability_domain}"
@@ -120,7 +120,7 @@ compartment_id = "${var.compartment_id}"
 }
 
 module "nic" {
- source = "../../../../modules/OCI/infra/NIC"
+ source = "../../../modules/OCI/infra/NIC"
  oci_subnet_id2 = "${module.subnet.oci_subnet_id2}"
  server_vnic_display_name = "${var.client_vnic_display_name}"
  instance_id = "${module.oci_compute.instance_id}"
@@ -132,7 +132,7 @@ module "nic" {
 
 
 module "playbooks" {
-  source = "../../../../modules/OCI/infra/playbooks"
+  source = "../../../modules/OCI/infra/playbooks"
   vthunder_vm_public_ip = "${module.oci_compute.ip}"
   vthunder_vm_public_ip2 = "${module.oci_compute.ip2}"
   password1 = "${element(split(".",module.oci_compute.instance_id),4)}"
@@ -158,19 +158,19 @@ module "playbooks" {
 
 
 module "oci_network" {
-   source = "../../../../modules/OCI/infra/vcn"
+   source = "../../../modules/OCI/infra/vcn"
   compartment_id = "${var.compartment_id}"
   vcn_cidr = "${var.vcn_cidr}"
 }
 
 module "igw" {
-source = "../../../../modules/OCI/infra/IGW"
+source = "../../../modules/OCI/infra/IGW"
 compartment_id = "${var.compartment_id}"
 vcn_id = "${module.oci_network.id}"
 }
 
 module "subnet" {
-source = "../../../../modules/OCI/infra/subnet"
+source = "../../../modules/OCI/infra/subnet"
 compartment_id = "${var.compartment_id}"
 vcn_id = "${module.oci_network.id}"
 subnet_cidr = "${var.subnet_cidr}"
@@ -181,14 +181,14 @@ security_list_ids = "${module.sl.security_list_ids}"
 }
 
 module "route" {
-source = "../../../../modules/OCI/infra/route"
+source = "../../../modules/OCI/infra/route"
 compartment_id = "${var.compartment_id}"
 vcn_id = "${module.oci_network.id}"
 internet_gateway_id = "${module.igw.internet_gateway_id}"
 }
 
 module "sl" {
-source = "../../../../modules/OCI/infra/SL"
+source = "../../../modules/OCI/infra/SL"
 compartment_id = "${var.compartment_id}"
 vcn_id = "${module.oci_network.id}"
 }
