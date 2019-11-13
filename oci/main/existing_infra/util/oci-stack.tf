@@ -98,7 +98,7 @@ provider "oci" {
 module "oci_compute" {
 tenancy_ocid = "${var.tenancy_ocid}"
 compartment_id = "${var.compartment_id}"
- source = "../../../../modules/OCI/infra/compute"
+ source = "../../../modules/OCI/infra/compute"
  oci_subnet_id1 = "${var.oci_subnet_id1}"
  oci_subnet_id3 = "${var.oci_subnet_id3}"
  vm_availability_domain = "${var.vm_availability_domain}"
@@ -111,7 +111,7 @@ compartment_id = "${var.compartment_id}"
 }
 
 module "nic" {
- source = "../../../../modules/OCI/infra/NIC"
+ source = "../../../modules/OCI/infra/NIC"
  oci_subnet_id2 = "${var.oci_subnet_id2}"
  server_vnic_display_name = "${var.server_vnic_display_name}"
  server_vnic_private_ip = "${var.server_vnic_private_ip}"
