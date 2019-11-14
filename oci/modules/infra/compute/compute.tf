@@ -50,6 +50,7 @@ variable "vm_count" {
 
 data "oci_core_images" "vThuder_image" {
   compartment_id = "${var.tenancy_ocid}"
+  #compartment_id = "${var.compartment_id}"
  }
 
 locals {
@@ -76,7 +77,7 @@ resource "oci_core_instance" "vthunder_vm" {
     display_name = "${var.vm_primary_vnic_display_name}"
     assign_public_ip = true
   }
-  metadata {
+  metadata = {
     ssh_authorized_keys = "${file( var.vm_ssh_public_key_path )}"
   }
   timeouts {
@@ -101,8 +102,9 @@ resource "oci_core_instance" "app-server" {
 
   create_vnic_details {
     subnet_id = "${var.oci_subnet_id3}"
-    assign_public_ip = false  }
-  metadata {
+    assign_public_ip = false  
+    }
+  metadata = {
     ssh_authorized_keys = "${file( var.vm_ssh_public_key_path )}"
     user_data = "${base64encode(file("user_data.sh"))}"
 
@@ -112,10 +114,14 @@ resource "oci_core_instance" "app-server" {
   }
 }
 
-output "ip" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,0)}"}
-output "ip2" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,1)}"}
+output "ip_active" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,0)}"}
+#output "ip2" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,1)}"}
 
 output "backend_server_ip" {value = "${element(oci_core_instance.app-server.*.private_ip,0)}"}
 
-output "instance_id" { value = "${element(oci_core_instance.vthunder_vm.*.id,0)}" }
-output "instance_id2" { value = "${element(oci_core_instance.vthunder_vm.*.id,1)}" }
+output "instance_id_active" { value = "${element(oci_core_instance.vthunder_vm.*.id,0)}" }
+#output "instance_id2" { value = "${element(oci_core_instance.vthunder_vm.*.id,1)}" }
+
+output "ip_list" {value = "${slice(oci_core_instance.vthunder_vm.*.public_ip,1,length(oci_core_instance.vthunder_vm.*.public_ip))}"}
+output "instance_list" {value = "${slice(oci_core_instance.vthunder_vm.*.id,1,length(oci_core_instance.vthunder_vm.*.id))}"}
+

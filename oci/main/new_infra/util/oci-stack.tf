@@ -93,7 +93,7 @@ provider "oci" {
 module "oci_compute" {
 tenancy_ocid = "${var.tenancy_ocid}"
 compartment_id = "${var.compartment_id}"
- source = "../../../../modules/OCI/infra/compute"
+ source = "../../../modules/infra/compute"
  oci_subnet_id1 = "${module.subnet.oci_subnet_id1}"
  oci_subnet_id3 = "${module.subnet.oci_subnet_id3}"
  vm_availability_domain = "${var.vm_availability_domain}"
@@ -107,7 +107,7 @@ compartment_id = "${var.compartment_id}"
 }
 
 module "nic" {
- source = "../../../../modules/OCI/infra/NIC"
+ source = "../../../modules/infra/NIC"
  oci_subnet_id2 = "${module.subnet.oci_subnet_id2}"
  server_vnic_display_name = "${var.server_vnic_display_name}"
  server_vnic_private_ip = "${var.server_vnic_private_ip}"
@@ -117,18 +117,18 @@ module "nic" {
 }
 
 module "oci_network" {
-   source = "../../../../modules/OCI/infra/vcn"
+   source = "../../../modules/infra/vcn"
   compartment_id = "${var.compartment_id}"
 }
 
 module "igw" {
-source = "../../../../modules/OCI/infra/IGW"
+source = "../../../modules/infra/IGW"
 compartment_id = "${var.compartment_id}"
 vcn_id = "${module.oci_network.id}"
 }
 
 module "subnet" {
-source = "../../../../modules/OCI/infra/subnet"
+source = "../../../modules/infra/subnet"
 compartment_id = "${var.compartment_id}"
 vcn_id = "${module.oci_network.id}"
 vm_availability_domain = "${var.vm_availability_domain}"
@@ -138,14 +138,14 @@ security_list_ids = "${module.sl.security_list_ids}"
 }
 
 module "route" {
-source = "../../../../modules/OCI/infra/route"
+source = "../../../modules/infra/route"
 compartment_id = "${var.compartment_id}"
 vcn_id = "${module.oci_network.id}"
 internet_gateway_id = "${module.igw.internet_gateway_id}"
 }
 
 module "sl" {
-source = "../../../../modules/OCI/infra/SL"
+source = "../../../modules/infra/SL"
 compartment_id = "${var.compartment_id}"
 vcn_id = "${module.oci_network.id}"
 }

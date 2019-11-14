@@ -51,13 +51,13 @@
       a10_host: "{{ a10_host }}"
       a10_username: "admin"
       a10_password: "{{ a10_password }}"
-      file_path: "configure.txt"
-      key_path: "/home/smita/A10/a10-terraform-smita/oci/main/new_infra/OCI/util/smita_key.pem"
+      file_path: "/home/sujeet/terraform/GIT/terraform-test/oci/main/new_infra/OCI/HA/configure.txt"
+      key_path: "/home/sujeet/terraform/GIT/terraform-test/oci/main/new_infra/OCI/HA/smita_key.pem"
       ip: "{{ a10_host }}"
   - name: session sync
     a10_command:
       a10_host: "{{ a10_host }}"
       a10_username: "admin"
       a10_password: "{{ a10_password }}"
-      file_path: "session_sync.txt"
-      key_path: "/home/smita/A10/a10-terraform-smita/oci/main/new_infra/OCI/util/smita_key.pem"
+      file_path: "/home/sujeet/terraform/GIT/terraform-test/oci/main/new_infra/OCI/HA/session_sync.txt"
+      key_path: "/home/sujeet/terraform/GIT/terraform-test/oci/main/new_infra/OCI/HA/smita_key.pem"

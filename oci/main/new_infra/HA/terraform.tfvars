@@ -27,7 +27,7 @@ vm_availability_domain = "paEo:US-ASHBURN-AD-2"
 vm_shape = "VM.Standard2.8"
 vm_creation_timeout = "5m"
 vm_primary_vnic_display_name = "primary-vnic"
-vm_ssh_public_key_path = "/home/smita/A10/keys/smita_key.pub"
+vm_ssh_public_key_path = "/home/gslab/Downloads/smita_key.pub"
 
 #Secondary VNIC details - server
 #1st vThunder details
@@ -48,3 +48,5 @@ server_vnic_private_ip2= "10.0.2.11"
 client_vnic_private_ip2 = "10.0.3.11"
 next_hop_ip = "10.0.2.1"
 mgmt_default_gateway = "10.0.1.1"
+
+count_vm = "3"

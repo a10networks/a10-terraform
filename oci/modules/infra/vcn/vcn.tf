@@ -3,13 +3,9 @@ variable "compartment_id" {
 description = "Compartment OCID"
 }
 
-
-
 variable "vcn_cidr" {
 description = "VCN CIDR"
 }
-
-
 
 resource "oci_core_virtual_network" "a10_vcn" {
   compartment_id = "${var.compartment_id}"

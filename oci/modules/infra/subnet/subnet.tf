@@ -12,7 +12,7 @@ description = "Route table id"
 }
 
 variable "security_list_ids"{
-type="list"
+#type="list"
 description = "Security List ids"
 }
 
