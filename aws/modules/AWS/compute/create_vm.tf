@@ -43,66 +43,67 @@ variable "amis" {
 }
 
 
-variable "count" {
+variable "count_vm" {
   default = "1"
 }
 
-variable "first_network_interface_id" {
-type = "list"}
+variable "first_network_interface_id"{
+type = "list"
+}
 
-variable "second_network_interface_id" {
+variable "second_network_interface_id"{
 type = "list"
 }
 
 
-variable "third_network_interface_id" {
+variable "third_network_interface_id"{
 type = "list"
 }
 
-resource "aws_instance" "vThunder" {
+resource "aws_instance" "vThunder"{
   ami ="${lookup(var.amis,var.region)}"
   instance_type = "m4.xlarge"
-  network_interface {
-
-      network_interface_id = "${element(var.default_nic_id,count.index)}"
+  network_interface{
+      network_interface_id = "${element(var.default_nic_id,0)}"
       device_index               = "0"
     }
 
   #  subnet = "${var.env == "production" ? var.prod_subnet : var.dev_subnet}"
 
   network_interface {
-    network_interface_id = "${element(var.first_network_interface_id, count.index)}"
+    network_interface_id = "${element(var.first_network_interface_id, 0)}"
     device_index = "1"
-
   }
   network_interface {
-    network_interface_id = "${element(var.second_network_interface_id, count.index)}"
+    network_interface_id = "${element(var.second_network_interface_id, 0)}"
     device_index = "2"
-
   }
   availability_zone = "${var.region}a"
 
   key_name = "${var.aws_key_name}"
 
-  tags {
+  tags = {
       #Name = "bh_vThunder-vm${count.index}"
       Name = "vthunder-a10-demo"
-
     }
   }
-
-
-  resource "null_resource" "test1" {
+  /*resource "null_resource" "test1"{
 
     provisioner "local-exec" {
       command = <<EOT
 
         ansible-playbook playbook.yml --extra-vars "a10_host='${aws_instance.vThunder.public_ip}' a10_password='${aws_instance.vThunder.id}' slb_server_host='10.0.0.1' slb_service_group_member='10.0.0.1' slb_vritual_server_ip='10.0.0.3' "
-EOT
+  EOT
     }
     depends_on = ["aws_instance.vThunder"]
-  }
+  }*/
 
-  output "vthunder_instance_id" { value = "${aws_instance.vThunder.id}"}
-  output "ip" {value = "${aws_instance.vThunder.public_ip}"}
-  output "private_ip" {value = "${aws_instance.vThunder.private_ip}"}
+  output "vthunder_instance_id"{
+    value = "${aws_instance.vThunder.*.id}"
+    }
+  output "ip"{
+    value = "${aws_instance.vThunder.*.public_ip}"
+    }
+  output "private_ip"{
+    value = "${aws_instance.vThunder.*.private_ip}"
+    }

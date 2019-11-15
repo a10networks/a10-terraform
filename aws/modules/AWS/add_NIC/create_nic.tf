@@ -27,7 +27,7 @@ variable "network_interface_name" {
   default = "network_interface_default"
 }
 
-variable "count" {
+variable "count_vm" {
   default = "1"
 }
 
@@ -35,9 +35,9 @@ variable "countnic" {
   default = "4"
 }
 
-variable "vm_count" {
-  default = ""
-}
+#variable "vm_count" {
+#  default = ""
+#}
 
 variable "nic_first" {
   default = "1"
@@ -50,8 +50,8 @@ provider "aws" {
 }
 
 variable "public_subnet_id" {
-type = "list"}
-
+type = "list"
+}
 
 resource "aws_network_interface" "first" {
   count = "1"
@@ -75,11 +75,11 @@ resource "aws_network_interface" "third" {
 }
 
 resource "aws_network_interface" "default_NIC" {
-  count = "${var.vm_count}"
+  count = "${var.count_vm}"
   subnet_id       = "${element(var.public_subnet_id, count.index)}"
   security_groups = ["${var.security_groups}"]
-  tags {
-    "TAG" = "${var.network_interface_name}"
+  tags = {
+    TAG = "${var.network_interface_name}"
   }
 }
 
@@ -88,10 +88,12 @@ output "first_network_interface_id" {value = "${aws_network_interface.first.*.id
 output "second_network_interface_id" {value = "${aws_network_interface.second.*.id}"}
 output "third_network_interface_id" {value = "${aws_network_interface.third.*.id}"}
 
-output "private_ip_NIC" {value = "${aws_network_interface.first.private_ips}"}
+output "private_ip_NIC" {
+  value = "${aws_network_interface.first.*.private_ips}"
+  }
 
-output "eth1_second_private_ip" {value = "${element(aws_network_interface.first.private_ips, 1)}"}
+output "eth1_second_private_ip"{value = "${element(aws_network_interface.first.*.private_ips, 1)}"}
 
-output "eth2_private_ip" {value = "${element(aws_network_interface.second.private_ips, 0)}"}
+output "eth2_private_ip"{value = "${element(aws_network_interface.second.*.private_ips, 0)}"}
 
-output "eth1_sec_private_ip" {value = "${element(aws_network_interface.first.private_ips, 0)}"}
+output "eth1_sec_private_ip"{value = "${element(aws_network_interface.first.*.private_ips, 0)}"}

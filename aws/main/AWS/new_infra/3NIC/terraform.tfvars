@@ -1,6 +1,6 @@
 vpc_cidr = "20.0.0.0/16"
 subnet_count = 3
-count = 1 #number of vthundder machines
+count_vm = 1 #number of vthundder machines
 subnet_cidr = ["20.0.1.0/24", "20.0.2.0/24", "20.0.3.0/24"]    # ["private subnet id","management public subnet id","client public subnet id"]
 region = "" #region in which all resources will be created  e.g.:sa-east-1
 aws_key_name = "terraform" #Enter created EC2 keypair name

@@ -36,7 +36,7 @@ resource "aws_route_table" "subnet-public" {
         gateway_id = "${var.igw_id}"
     }
 
-    tags {
+    tags = {
         Name = "Public Subnet"
     }
 }

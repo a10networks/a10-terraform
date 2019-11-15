@@ -22,15 +22,13 @@ variable "subnet_count" {
   default = "1"
 }
 
-variable "count" {
+variable "count_vm" {
   default = "1"
 }
 
 variable "subnet_name" {
   default = ""
 }
-
-
 
 variable "amis" {
   type = "map"
@@ -86,7 +84,7 @@ module "subnet" {
   aws_secret_key = "${var.aws_secret_key}"
   region         = "${var.region}"
   #subnet_name = "${var.subnet_name}"
-  count = 3
+  count_vm = 3
   #private_subnet_name = "${var.subnet_name}"
   CIDR_range          = "${var.subnet_cidr}"
   public_ip_on_launch = "true"
@@ -120,7 +118,7 @@ module "aws_compute" {
   source               = "../../../../modules/AWS/compute"
   #nic_list = "${concat("module.NIC.default_network_interface_id","module.add_NIC.new_network_interface_id")}"
   aws_key_name         = "${var.aws_key_name}"
-  count                = "${var.count}"
+  count_vm                = "${var.count_vm}"
   default_nic_id = "${module.add_NIC.default_network_interface_id}"
   first_network_interface_id = "${module.add_NIC.first_network_interface_id}"
   second_network_interface_id = "${module.add_NIC.second_network_interface_id}"
@@ -137,7 +135,7 @@ module "SG" {
 }
 
 module "add_NIC" {
-  vm_count = "${var.count}"
+  count_vm = "${var.count_vm}"
   countnic          = "${var.subnet_count - 1 }"
   source         = "../../../../modules/AWS/add_NIC"
   aws_access_key = "${var.aws_access_key}"
@@ -150,28 +148,26 @@ module "add_NIC" {
 }
 
 module "EIP1" {
-  count = "${var.subnet_count}"
+  count_ip = "${var.subnet_count}"
   source = "../../../../modules/AWS/EIP"
   aws_access_key = "${var.aws_access_key}"
   aws_secret_key = "${var.aws_secret_key}"
   region = "${var.region}"
   default_network_interface_id = "${module.add_NIC.default_network_interface_id}"
   first_network_interface_id = "${module.add_NIC.first_network_interface_id}"
-  private_ip_NIC = "${module.add_NIC.private_ip_NIC}"
+  private_ip_NIC = "${element(module.add_NIC.private_ip_NIC,0)}"
   #aws_eip_name = "${var.aws_eip_name}"
 }
 
+output "VPC_ID" { value = "${module.vpc.vpc_id}"}
+output "Public_subnet" {value = "${module.subnet.public_subnet_id}"}
+output "Private_Subnets" {value = "${module.subnet.private_subnet_id}"}
+output "Default_NIC_ID" {value = "${module.add_NIC.default_network_interface_id}"}
 
+output "private_ips_nic" {value = "${module.add_NIC.private_ip_NIC}"}
 
-output "vthunder IP(s)" {value = "${module.aws_compute.vthunder_instance_id}"}
-output "VPC ID" { value = "${module.vpc.vpc_id}"}
-output "Public subnet" {value = "${module.subnet.public_subnet_id}"}
-output "Private Subnet(s)" {value = "${module.subnet.private_subnet_id}"}
-output "Default NIC ID" {value = "${module.add_NIC.default_network_interface_id}"}
-output "subnets " { value = "${module.subnet.private_subnet_id}" }
+output "vThuder_management_IP" { value = "${module.aws_compute.ip}"}
 
-output "vThuder management IP " { value = "${module.aws_compute.ip}"}
-
-output "Instance id " { value = "${module.aws_compute.vthunder_instance_id}"}
+output "Instance_id" { value = "${module.aws_compute.vthunder_instance_id}"}
 
 

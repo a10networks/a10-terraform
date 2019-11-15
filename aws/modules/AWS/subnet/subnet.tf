@@ -33,7 +33,7 @@ variable "vpc_id" {
 }
 
 
-variable "count" {
+variable "count_vm" {
   default = "1"
 }
 
@@ -43,18 +43,18 @@ resource "aws_subnet" "public" {
     cidr_block = "${element(var.CIDR_range,count.index)}"
     availability_zone = "${var.region}a"
     map_public_ip_on_launch= "true"
-    tags {
+    tags = {
         Name = "public subnet"
     }
 }
 
 resource "aws_subnet" "private" {
-    count = "${var.count - 2 }"
+    count = "${var.count_vm - 2 }"
     vpc_id = "${var.vpc_id}"
     cidr_block = "${element(var.CIDR_range,(count.index + 2))}"
     availability_zone = "${var.region}a"
     map_public_ip_on_launch= "false"
-    tags {
+    tags = {
         Name = "private subnet"
     }
 }

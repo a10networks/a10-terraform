@@ -29,10 +29,11 @@ variable "vpc_name" {
 resource "aws_vpc" "vpc01" {
     cidr_block = "${var.vpc_cidr}"
     enable_dns_hostnames = true
-    tags {
+    tags = {
         Name = "${var.vpc_name}"
     }
 }
 
-output "vpc_id" {value = "${aws_vpc.vpc01.id}"
+output "vpc_id"{
+    value = "${aws_vpc.vpc01.id}"
 }
