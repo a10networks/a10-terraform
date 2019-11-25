@@ -1,0 +1,3 @@
+import cloud-creds oci_api_key.pem use-mgmt-port sftp://ubuntu@13.52.180.11/home/ubuntu/oci_api_key.pem
+import cloud-config config use-mgmt-port sftp://ubuntu@13.52.180.11/home/ubuntu/oci_config
+import key oci_api_key.pem use-mgmt-port sftp://ubuntu@13.52.180.11/home/ubuntu/oci_api_key.pem

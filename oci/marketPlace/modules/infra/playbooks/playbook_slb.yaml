@@ -1,0 +1,172 @@
+- name: a10 demo playbook
+  connection: local
+  hosts: localhost
+  tasks:
+  - name: a10_reboot
+    a10_reboot:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_protocol: "https"
+      a10_port: "443"
+      all: 1
+  - name: pause
+    pause:
+      minutes: 3
+  - name: add DNS entry
+    a10_ip_dns_primary:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_protocol: "https"
+      a10_port: "443"
+      ip_v4_addr: "8.8.8.8"
+  - name: Authenticate via token
+    a10_glm:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_protocol: "https"
+      a10_port: "443"
+      token: "vTh7aa90d73d"
+      use_mgmt_port: 1
+      enable_requests: "true"
+      allocate_bandwidth: 1000
+  - name: Send License Request
+    a10_glm:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_protocol: "https"
+      a10_port: "443"
+      send:
+        license_request: "true"
+  - name: a10_config
+    a10_config:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      file_path: "/home/sujeet/terraform/GIT/terraform-test/oci/main/new_infra/OCI/HA/import.txt" #absolute path
+      key_path: "/home/sujeet/terraform/GIT/terraform-test/oci/main/new_infra/OCI/HA/smita_key.pem" #absolute path
+
+  # - name: a10_interface_management
+  #   a10_interface_management:
+  #     a10_host: "{{ a10_host }}"
+  #     a10_username: "admin"
+  #     a10_password: "{{ a10_password }}"
+  #     a10_protocol: "https"
+  #     a10_port: "443"
+  #     ip:
+  #       default_gateway: "{{ mgmt_default_gateway }}"
+
+##SLB Configurations
+- name: Assign interface IP address
+  connection: local
+  hosts: localhost
+  tasks:
+  - name: Assign interface IP address
+    a10_interface_ethernet:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      state: "present"
+      ip:
+        address_list:
+        -  ipv4-address: "{{ client_primary_private_IP }}"
+           ipv4-netmask: "255.255.255.0"
+      ifnum: 1
+      action: enable
+
+  - name: Assign interface IP address (2nd)
+    a10_interface_ethernet:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      state: "present"
+      ip:
+        address_list:
+        -  ipv4-address: "{{ server_nic_private_ip }}"
+           ipv4-netmask: "255.255.255.0"
+      ifnum: 2
+      action: enable
+- name: SLB and VRRP-a Configurations playbook
+  connection: local
+  hosts: localhost
+  tasks:
+  - name: Create a10_slb_server instance
+    a10_slb_server:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      name: server1
+      host: "{{ app_server_IP }}"
+      action: enable
+      conn_limit: 1
+      weight: 1
+      health_check_disable: "true"
+      port_list:
+      - protocol: "tcp"
+        port_number: "22"
+      - protocol: "tcp"
+        port_number: "80"
+  - name: Create a10_slb_service_group instance
+    a10_slb_service_group:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      protocol: tcp
+      member_list:
+        - host: "{{ app_server_IP }}"
+          name: 'server1'
+          port: 80
+      name: sg1
+      lb_method: dst-ip-hash
+  - name: Create a10_slb_virtual_server instance
+    a10_slb_virtual_server:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_port: "443"
+      a10_protocol: "https"
+      name: vs1
+      ip_address: "{{ virtual_server }}"
+      enable_disable_action: enable
+      port_list:
+      - ha_conn_mirror: "true"
+        service_group: "sg1"
+        protocol: "tcp"
+        port_number: "80"
+        snat_on_vip: 1
+        auto: 1
+
+  - name: add a10_ip_route_rib
+    a10_ip_route_rib:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      a10_protocol: "https"
+      a10_port: "443"
+      ip_nexthop_ipv4:
+        - ip_next_hop: "{{ mgmt_default_gateway }}"
+          distance_nexthop_ip: "1"
+        - ip_next_hop: "{{ next_hop_ip }}"
+          distance_nexthop_ip: "1"
+      ip_dest_addr: "0.0.0.0"
+      ip_mask: "/0"
+
+  - name: a10_config
+    a10_configure:
+      a10_host: "{{ a10_host }}"
+      a10_username: "admin"
+      a10_password: "{{ a10_password }}"
+      file_path: "/home/sujeet/terraform/GIT/terraform-test/oci/main/new_infra/OCI/HA/configure.txt"
+      key_path: "/home/sujeet/terraform/GIT/terraform-test/oci/main/new_infra/OCI/HA/smita_key.pem"
+      ip: "{{ a10_host }}"
