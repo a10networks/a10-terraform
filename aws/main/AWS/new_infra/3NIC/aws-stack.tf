@@ -158,10 +158,14 @@ module "EIP" {
   active_first_private_ips = "${element(module.add_NIC.active_first_private_ips,0)}"
   stdby_default_network_interface_id = "${module.add_NIC.stdby_default_network_interface_id}"
   stdby_first_network_interface_id = "${module.add_NIC.stdby_first_network_interface_id}"
-  stdby_first_private_ips = "${element(module.add_NIC.stdby_first_private_ips,0)}"
-
-  
+  stdby_first_private_ips = "${module.add_NIC.stdby_first_private_ips}"
 }
+
+//output "private_ip_list" { value = "${module.add_NIC.stdby_first_private_ips}"}
+/*output "private_ip_list1" { value = "${module.add_NIC.stdby_first_private_ips[0]}"}
+output "private_ip_list2" { value = "${element(tolist(module.add_NIC.stdby_first_private_ips[0]),0)}"}
+output "private_ip_list3" { value = "${element(tolist(slice(module.add_NIC.stdby_first_private_ips,0,1)),0)}"}*/
+
 
 output "VPC_ID" { value = "${module.vpc.vpc_id}"}
 output "Public_subnet" {value = "${module.subnet.public_subnet_ids}"}

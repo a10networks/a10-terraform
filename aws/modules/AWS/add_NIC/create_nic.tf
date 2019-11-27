@@ -95,7 +95,7 @@ output "stdby_first_network_interface_id" {value = "${aws_network_interface.stdb
 output "stdby_second_network_interface_id" {value = "${aws_network_interface.stdby_second.*.id}"}
 
 output "active_first_private_ips" { value = "${aws_network_interface.active_first.*.private_ips}" }
-output "stdby_first_private_ips" { value = "${aws_network_interface.stdby_first.*.private_ips.*}" }
+output "stdby_first_private_ips" { value = "${aws_network_interface.stdby_first.*.private_ips}" }
 
 #output "eth1_second_private_ip"{value = "${element(aws_network_interface.active_first.*.private_ips, 1)}"}
 #output "eth2_private_ip"{value = "${element(aws_network_interface.active_second.*.private_ips, 0)}"}

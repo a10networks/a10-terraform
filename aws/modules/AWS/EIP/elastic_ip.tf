@@ -78,7 +78,8 @@ resource "aws_eip" "stdby_eip_two" {
   vpc                       = true
   #network_interface         = "${element(var.new_network_interface_id, count.index)}"
   network_interface = "${element(var.stdby_first_network_interface_id,count.index)}"
-  associate_with_private_ip = "${element(var.stdby_first_private_ips, count.index)}"
+  //associate_with_private_ip = "${element(var.stdby_first_private_ips, count.index)}"
+  associate_with_private_ip  = "${element(tolist(var.stdby_first_private_ips[count.index]),0)}"
   depends_on = ["aws_eip.stdby_eip_one"]
 }
 
