@@ -212,7 +212,7 @@ vcn_id = "${module.oci_network.id}"
 
 #output "vnic_ID" {value = "${module.nic.vnic_id}" }
 
-output "instance_list" { value = "${module.oci_compute.instance_list}"}
+output "instance_list" { value = "${module.oci_compute.stdby_instance_list}"}
 
 #output "mgmt_IP" { value = "${module.oci_compute.ip}"}
 

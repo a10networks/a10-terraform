@@ -39,6 +39,8 @@ variable "oci_subnet_id3" {
 #  description = "instance_id"
 #}
 
+
+#active VT
 resource "oci_core_vnic_attachment" "client_vnic" {
     #Required
     create_vnic_details {
@@ -115,7 +117,7 @@ data "oci_core_vnic" "test_vnic_server" {
 }
 
 
-#2nd Vthuder NIC settings
+#Standby Vthuder NIC settings
 
 resource "oci_core_vnic_attachment" "client_vnic2" {
    #for_each = toset(var.instance_list)
@@ -176,17 +178,10 @@ data "oci_core_vnic" "vt2_vnic_server" {
 }
 
 output "vnic_id" {value = "${oci_core_vnic_attachment.client_vnic.vnic_id}"}
-
 output "client_vnic_private_ip" {value ="${data.oci_core_vnic.test_vnic_client.private_ip_address}"}
-#output "client_vnic_private_ip2" {value = "${data.oci_core_vnic.vt2_vnic_client.private_ip_address}"}
-
 output "client_vnic_private_ip2_list" {value = "${data.oci_core_vnic.vt2_vnic_client.*.private_ip_address}"}
-
 output "client_vip_private_ip" {value = "${oci_core_private_ip.client_vnic_private_ip.ip_address}"}   #secondary vip private IP
-
 output "server_nic_private_ip" {value = "${data.oci_core_vnic.test_vnic_server.private_ip_address}"}
-#output "server_nic_private_ip2" {value = "${data.oci_core_vnic.vt2_vnic_server.private_ip_address}"}
-
 output "server_nic_private_ip2_list" {value = "${data.oci_core_vnic.vt2_vnic_server.*.private_ip_address}"}
 
 #floating IP

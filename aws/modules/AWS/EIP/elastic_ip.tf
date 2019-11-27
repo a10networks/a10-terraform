@@ -19,36 +19,71 @@ provider "aws" {
     region = "${var.region}"
 }
 
-variable "default_network_interface_id" {
+variable "active_default_network_interface_id" {
 type = "list"
 }
 
-variable "private_ip_NIC" {
+variable "active_first_network_interface_id" {
+type = "list"
+}
+variable "active_first_private_ips" {
 type = "list"
 }
 
-variable "first_network_interface_id" {
+variable "stdby_default_network_interface_id" {
 type = "list"
 }
 
-resource "aws_eip" "one" {
-  count = "1"
+variable "stdby_first_network_interface_id" {
+type = "list"
+}
+variable "stdby_first_private_ips" {
+type = "list"
+}
+
+#active EIP
+resource "aws_eip" "active_eip_one" {
   vpc                       = true
-  network_interface         = "${element(var.default_network_interface_id, count.index)}"
-  #associate_with_private_ip = "${element(var.private_ip, count.index) }"
+  network_interface         = "${element(var.active_default_network_interface_id, 0)}"
+  #associate_with_private_ip = "${element(var.private_ip, 0) }"
 }
 
-resource "aws_eip" "two" {
-  #count = "${var.count - 1 }"
-  count = "1"
+resource "aws_eip" "active_eip_two" {
+  vpc                       = true
+  #network_interface         = "${element(var.new_network_interface_id, count.index)}"
+  network_interface = "${element(var.active_first_network_interface_id,0)}"
+  associate_with_private_ip = "${element(var.active_first_private_ips, 0)}"
+  depends_on = ["aws_eip.active_eip_one"]
+}
+/*
+resource "aws_eip" "active_eip_three" {
   vpc                       = true
   #network_interface         = "${element(var.new_network_interface_id, count.index)}"
   network_interface = "${element(var.first_network_interface_id,count.index)}"
-  associate_with_private_ip = "${element(var.private_ip_NIC, count.index)}"
-  depends_on = ["aws_eip.one"]
+  associate_with_private_ip = "${element(var.active_first_private_ips, 0)}"
+}
+*/
+
+#stdby EIP
+resource "aws_eip" "stdby_eip_one" {
+  count = "${length(var.stdby_default_network_interface_id)}"
+  vpc                       = true
+  network_interface         = "${element(var.stdby_default_network_interface_id, count.index)}"
+  #associate_with_private_ip = "${element(var.private_ip, count.index) }"
 }
 
-resource "aws_eip" "three" {
+resource "aws_eip" "stdby_eip_two" {
+  #count = "${var.count - 1 }"
+  count = "${length(var.stdby_first_network_interface_id)}"
+  vpc                       = true
+  #network_interface         = "${element(var.new_network_interface_id, count.index)}"
+  network_interface = "${element(var.stdby_first_network_interface_id,count.index)}"
+  associate_with_private_ip = "${element(var.stdby_first_private_ips, count.index)}"
+  depends_on = ["aws_eip.stdby_eip_one"]
+}
+
+/*
+resource "aws_eip" "stdby_eip_three" {
   #count = "${var.count - 1 }"
   count = "1"
   vpc                       = true
@@ -56,7 +91,4 @@ resource "aws_eip" "three" {
   network_interface = "${element(var.first_network_interface_id,count.index)}"
   associate_with_private_ip = "${element(var.private_ip_NIC, (count.index + 1))}"
 }
-
-
-
-#output "EIP" { value = "aws_eip.create_eip"}
+*/

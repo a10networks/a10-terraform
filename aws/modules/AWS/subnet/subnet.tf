@@ -38,7 +38,7 @@ variable "count_vm" {
 }
 
 resource "aws_subnet" "public" {
-    count = "2"
+    count = "2"         #two pubic subnets- one for mgmt NIC and other for client NIC
     vpc_id = "${var.vpc_id}"
     cidr_block = "${element(var.CIDR_range,count.index)}"
     availability_zone = "${var.region}a"
@@ -49,7 +49,7 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "private" {
-    count = "${var.count_vm - 2 }"
+    count = "${var.subnet_count - 2 }"  #except for two public subnets, rest will be private subnets
     vpc_id = "${var.vpc_id}"
     cidr_block = "${element(var.CIDR_range,(count.index + 2))}"
     availability_zone = "${var.region}a"
@@ -60,5 +60,5 @@ resource "aws_subnet" "private" {
 }
 
 #output "new_subnet_id" {value = "aws_subnet.${var.subnet_name}.public_ip"}
-output "private_subnet_id" { value = "${aws_subnet.private.*.id}"}
-output "public_subnet_id" { value = "${aws_subnet.public.*.id}"}
+output "private_subnet_ids" { value = "${aws_subnet.private.*.id}"}
+output "public_subnet_ids" { value = "${aws_subnet.public.*.id}"}

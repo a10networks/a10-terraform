@@ -10,11 +10,6 @@ variable "aws_secret_key" {
   default = ""
 }
 
-variable "default_nic_id" {
-type = "list"
-}
-
-
 provider "aws" {
     access_key = "${var.aws_access_key}"
     secret_key = "${var.aws_secret_key}"
@@ -47,35 +42,49 @@ variable "count_vm" {
   default = "1"
 }
 
-variable "first_network_interface_id"{
+
+variable "active_default_nic_id" {
 type = "list"
 }
 
-variable "second_network_interface_id"{
+
+variable "active_first_network_interface_id"{
+type = "list"
+}
+
+variable "active_second_network_interface_id"{
 type = "list"
 }
 
 
-variable "third_network_interface_id"{
+variable "stdby_default_nic_id" {
 type = "list"
 }
 
-resource "aws_instance" "vThunder"{
+
+variable "stdby_first_network_interface_id"{
+type = "list"
+}
+
+variable "stdby_second_network_interface_id"{
+type = "list"
+}
+
+#active VT
+resource "aws_instance" "active_vThunder"{
   ami ="${lookup(var.amis,var.region)}"
   instance_type = "m4.xlarge"
   network_interface{
-      network_interface_id = "${element(var.default_nic_id,0)}"
+      network_interface_id = "${element(var.active_default_nic_id,0)}"
       device_index               = "0"
     }
 
-  #  subnet = "${var.env == "production" ? var.prod_subnet : var.dev_subnet}"
-
   network_interface {
-    network_interface_id = "${element(var.first_network_interface_id, 0)}"
+    network_interface_id = "${element(var.active_first_network_interface_id, 0)}"
     device_index = "1"
   }
   network_interface {
-    network_interface_id = "${element(var.second_network_interface_id, 0)}"
+    network_interface_id = "${element(var.active_second_network_interface_id, 0)}"
     device_index = "2"
   }
   availability_zone = "${var.region}a"
@@ -83,27 +92,43 @@ resource "aws_instance" "vThunder"{
   key_name = "${var.aws_key_name}"
 
   tags = {
-      #Name = "bh_vThunder-vm${count.index}"
       Name = "vthunder-a10-demo"
     }
   }
-  /*resource "null_resource" "test1"{
 
-    provisioner "local-exec" {
-      command = <<EOT
+#stdby
+resource "aws_instance" "stdby_vThunder"{
+  
+  count = "${var.count_vm - 1}"
+  
+  ami ="${lookup(var.amis,var.region)}"
+  instance_type = "m4.xlarge"
+  network_interface{
+      network_interface_id = "${element(var.stdby_default_nic_id,count.index)}"
+      device_index               = "0"
+    }
 
-        ansible-playbook playbook.yml --extra-vars "a10_host='${aws_instance.vThunder.public_ip}' a10_password='${aws_instance.vThunder.id}' slb_server_host='10.0.0.1' slb_service_group_member='10.0.0.1' slb_vritual_server_ip='10.0.0.3' "
-  EOT
-    }
-    depends_on = ["aws_instance.vThunder"]
-  }*/
+  network_interface {
+    network_interface_id = "${element(var.stdby_first_network_interface_id, count.index)}"
+    device_index = "1"
+  }
+  network_interface {
+    network_interface_id = "${element(var.stdby_second_network_interface_id, count.index)}"
+    device_index = "2"
+  }
+  availability_zone = "${var.region}a"
 
-  output "vthunder_instance_id"{
-    value = "${aws_instance.vThunder.*.id}"
+  key_name = "${var.aws_key_name}"
+
+  tags = {
+      Name = "vthunder-a10-demo"
     }
-  output "ip"{
-    value = "${aws_instance.vThunder.*.public_ip}"
-    }
-  output "private_ip"{
-    value = "${aws_instance.vThunder.*.private_ip}"
-    }
+  }
+
+#smita changes
+output "ip_active" {value = "${element(aws_instance.active_vThunder.*.public_ip,0)}"}
+output "instance_id_active" { value = "${element(aws_instance.active_vThunder.*.id,0)}" }
+
+output "stdby_ip_list" {value = "${aws_instance.stdby_vThunder.*.public_ip}"}
+output "stdby_instance_list" {value = "${aws_instance.stdby_vThunder.*.id}"}
+

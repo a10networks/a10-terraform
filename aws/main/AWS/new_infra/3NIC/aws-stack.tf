@@ -79,17 +79,16 @@ module "vpc" {
 }
 
 module "subnet" {
-  source         = "../../../../modules/AWS/subnet"
-  aws_access_key = "${var.aws_access_key}"
-  aws_secret_key = "${var.aws_secret_key}"
-  region         = "${var.region}"
-  #subnet_name = "${var.subnet_name}"
-  count_vm = 3
-  #private_subnet_name = "${var.subnet_name}"
+  source              = "../../../../modules/AWS/subnet"
+  aws_access_key      = "${var.aws_access_key}"
+  aws_secret_key      = "${var.aws_secret_key}"
+  region              = "${var.region}"
+  #subnet_name        = "${var.subnet_name}"
+  count_vm            = "${var.count_vm}"  #private_subnet_name = "${var.subnet_name}"
   CIDR_range          = "${var.subnet_cidr}"
   public_ip_on_launch = "true"
   vpc_id              = "${module.vpc.vpc_id}"
-  subnet_count = "${var.subnet_count}"
+  subnet_count        = "${var.subnet_count}"
 }
 
 module "IGW" {
@@ -106,7 +105,7 @@ module "route_table" {
   aws_secret_key = "${var.aws_secret_key}"
   region         = "${var.region}"
   igw_id         = "${module.IGW.igw_id}"
-  subnet_id      = "${module.subnet.public_subnet_id}"
+  subnet_id      = "${module.subnet.public_subnet_ids}"
   vpc_id         = "${module.vpc.vpc_id}"
 }
 
@@ -119,10 +118,13 @@ module "aws_compute" {
   #nic_list = "${concat("module.NIC.default_network_interface_id","module.add_NIC.new_network_interface_id")}"
   aws_key_name         = "${var.aws_key_name}"
   count_vm                = "${var.count_vm}"
-  default_nic_id = "${module.add_NIC.default_network_interface_id}"
-  first_network_interface_id = "${module.add_NIC.first_network_interface_id}"
-  second_network_interface_id = "${module.add_NIC.second_network_interface_id}"
-  third_network_interface_id = "${module.add_NIC.third_network_interface_id}"
+  active_default_nic_id = "${module.add_NIC.active_default_network_interface_id}"
+  active_first_network_interface_id = "${module.add_NIC.active_first_network_interface_id}"
+  active_second_network_interface_id = "${module.add_NIC.active_second_network_interface_id}"
+  stdby_default_nic_id = "${module.add_NIC.stdby_default_network_interface_id}"
+  stdby_first_network_interface_id = "${module.add_NIC.stdby_first_network_interface_id}"
+  stdby_second_network_interface_id = "${module.add_NIC.stdby_second_network_interface_id}"
+
 }
 
 #change naming for SG
@@ -136,38 +138,37 @@ module "SG" {
 
 module "add_NIC" {
   count_vm = "${var.count_vm}"
-  countnic          = "${var.subnet_count - 1 }"
   source         = "../../../../modules/AWS/add_NIC"
   aws_access_key = "${var.aws_access_key}"
   aws_secret_key = "${var.aws_secret_key}"
   region         = "${var.region}"
-  subnet_id      = "${module.subnet.private_subnet_id}"
-  public_subnet_id = "${module.subnet.public_subnet_id}"
+  private_subnet_ids      = "${module.subnet.private_subnet_ids}"
+  public_subnet_ids = "${module.subnet.public_subnet_ids}"
   security_groups = "${module.SG.security_grp}"
-  vthunder_instance_id = "${module.aws_compute.vthunder_instance_id}"
 }
 
-module "EIP1" {
+module "EIP" {
   count_ip = "${var.subnet_count}"
   source = "../../../../modules/AWS/EIP"
   aws_access_key = "${var.aws_access_key}"
   aws_secret_key = "${var.aws_secret_key}"
   region = "${var.region}"
-  default_network_interface_id = "${module.add_NIC.default_network_interface_id}"
-  first_network_interface_id = "${module.add_NIC.first_network_interface_id}"
-  private_ip_NIC = "${element(module.add_NIC.private_ip_NIC,0)}"
-  #aws_eip_name = "${var.aws_eip_name}"
+  active_default_network_interface_id = "${module.add_NIC.active_default_network_interface_id}"
+  active_first_network_interface_id = "${module.add_NIC.active_first_network_interface_id}"
+  active_first_private_ips = "${element(module.add_NIC.active_first_private_ips,0)}"
+  stdby_default_network_interface_id = "${module.add_NIC.stdby_default_network_interface_id}"
+  stdby_first_network_interface_id = "${module.add_NIC.stdby_first_network_interface_id}"
+  stdby_first_private_ips = "${element(module.add_NIC.stdby_first_private_ips,0)}"
+
+  
 }
 
 output "VPC_ID" { value = "${module.vpc.vpc_id}"}
-output "Public_subnet" {value = "${module.subnet.public_subnet_id}"}
-output "Private_Subnets" {value = "${module.subnet.private_subnet_id}"}
-output "Default_NIC_ID" {value = "${module.add_NIC.default_network_interface_id}"}
+output "Public_subnet" {value = "${module.subnet.public_subnet_ids}"}
+output "Private_Subnets" {value = "${module.subnet.private_subnet_ids}"}
 
-output "private_ips_nic" {value = "${module.add_NIC.private_ip_NIC}"}
+output "vThuder_management_IP" { value = "${module.aws_compute.ip_active}"}
 
-output "vThuder_management_IP" { value = "${module.aws_compute.ip}"}
+output "active_instance_id" { value = "${module.aws_compute.instance_id_active}"}
 
-output "Instance_id" { value = "${module.aws_compute.vthunder_instance_id}"}
-
-
+output "stdby_instance_list" { value = "${module.aws_compute.stdby_instance_list}"}

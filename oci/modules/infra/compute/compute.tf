@@ -58,7 +58,7 @@ locals {
 }
 
 resource "oci_core_instance" "vthunder_vm" {
-  count = "${var.vm_count}"
+  count = "${var.count_vm}"
   compartment_id = "${var.compartment_id}"
 
   display_name = "vthunder-vm-${count.index + 1}"
@@ -115,12 +115,9 @@ resource "oci_core_instance" "app-server" {
 }
 
 output "ip_active" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,0)}"}
-#output "ip2" {value = "${element(oci_core_instance.vthunder_vm.*.public_ip,1)}"}
+output "instance_id_active" { value = "${element(oci_core_instance.vthunder_vm.*.id,0)}" }
 
 output "backend_server_ip" {value = "${element(oci_core_instance.app-server.*.private_ip,0)}"}
-
-output "instance_id_active" { value = "${element(oci_core_instance.vthunder_vm.*.id,0)}" }
-#output "instance_id2" { value = "${element(oci_core_instance.vthunder_vm.*.id,1)}" }
 
 output "ip_list" {value = "${slice(oci_core_instance.vthunder_vm.*.public_ip,1,length(oci_core_instance.vthunder_vm.*.public_ip))}"}
 output "instance_list" {value = "${slice(oci_core_instance.vthunder_vm.*.id,1,length(oci_core_instance.vthunder_vm.*.id))}"}
