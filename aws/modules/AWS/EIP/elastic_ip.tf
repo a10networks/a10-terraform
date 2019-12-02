@@ -1,4 +1,4 @@
-depends_on = ["null_resource.delay"]variable "region" {
+variable "region" {
     description = "AWS Region"
     default = ""
 }
