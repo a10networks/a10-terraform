@@ -114,7 +114,7 @@ provider "oci" {
 
 
 module "oci_compute" {
- vm_count = "${var.count_vm}"
+ count_vm = "${var.count_vm}"
  tenancy_ocid = "${var.tenancy_ocid}"
  compartment_id = "${var.compartment_id}"
  source = "../../../modules/infra/compute"
@@ -212,7 +212,7 @@ vcn_id = "${module.oci_network.id}"
 
 #output "vnic_ID" {value = "${module.nic.vnic_id}" }
 
-output "instance_list" { value = "${module.oci_compute.stdby_instance_list}"}
+output "instance_list" { value = "${module.oci_compute.instance_list}"}
 
 #output "mgmt_IP" { value = "${module.oci_compute.ip}"}
 

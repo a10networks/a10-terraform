@@ -44,7 +44,7 @@ description = "tenancy ocid"
 
 variable "vThunder__image_ocid" {
 }
-variable "vm_count" {
+variable "count_vm" {
   default = "1"
 }
 
