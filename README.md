@@ -68,6 +68,7 @@ Cloud specific details are mentioned below:
        * A vThunder instance is provisioned with three ports on each subnets
        * The module is located at - a10-terraform/azure/main/1NIC/new_infra
 
+- RHEL/KVM
 
 ## REQUIREMENTS
 
