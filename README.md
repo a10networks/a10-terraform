@@ -69,6 +69,7 @@ Cloud specific details are mentioned below:
        * The module is located at - a10-terraform/azure/main/1NIC/new_infra
 
 - RHEL/KVM
+       * Infrastructure is provisioned from scratch to create an instance.
 
 ## REQUIREMENTS
 
