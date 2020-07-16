@@ -71,6 +71,9 @@ Cloud specific details are mentioned below:
 - RHEL/KVM
     * Infrastructure is provisioned from scratch to create an instance.
 
+- vCenter
+    * The script needs datacenter, datastore created and specified as parameters in tfvars file.
+
 ## REQUIREMENTS
 
 General prerequisites for the templates are mentioned as below:
