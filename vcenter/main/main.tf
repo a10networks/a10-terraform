@@ -11,6 +11,9 @@ variable resource_pool {}
 variable network_name {}
 variable template_name {}
 variable vm_name {}
+variable cpu {}
+variable memory {}
+
 provider "vsphere" {
   user           = var.vsphere_user
   password       = var.vsphere_password
@@ -49,8 +52,8 @@ module "compute" {
   vm_name              = "${var.vm_name}"
   resource_pool_id     = data.vsphere_resource_pool.pool.id
   datastore_id         = data.vsphere_datastore.datastore.id
-  num_of_cpu           = 2
-  memory               = 8192
+  num_of_cpu           = "${var.cpu}"
+  memory               = "${var.memory}"
   guest_id             = "${data.vsphere_virtual_machine.template.guest_id}"
   scsi_type 	       = "${data.vsphere_virtual_machine.template.scsi_type}"
   network_id           = data.vsphere_network.network.id
