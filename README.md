@@ -37,7 +37,7 @@ Cloud specific details are mentioned below:
        * Infrastructure is created from scratch to create an instance.
        * One custom VCN is provisioned. Within the VCN, three subnets are provisioned.
        * An Internet Gateway is provisioned and attached to the custom VCN
-       * Two vThunder instances are provisioned with three NICs on those subnets.
+       * vThunder HA pair are provisioned with 3 NIC's on those subnets
        * The module is located at - a10-terraform/oci/main/new_infra/OCI/util/
 
  - Openstack:
