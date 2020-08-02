@@ -159,7 +159,6 @@ module "nic" {
   
   client_vip_private_ip = "${module.nic.client_vip_private_ip}"    //VIP pri
 
-  #server_nic_private_IP2 = "${module.nic.server_nic_private_ip2}" #server vnic primary private ip
   server_nic_private_IP2_list = "${module.nic.server_nic_private_ip2_list}" #server vnic primary private ip
 
   server_nic_private_IP = "${module.nic.server_nic_private_ip}"   #server primary pri
