@@ -85,7 +85,6 @@ resource "oci_core_instance" "vthunder_vm" {
   }
 }
 
-
 ##APP SERVER###
 
 resource "oci_core_instance" "app-server" {
