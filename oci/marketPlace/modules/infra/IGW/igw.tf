@@ -1,4 +1,3 @@
-
 variable "compartment_id" {
 description = "Compartment OCID"
 }
@@ -15,5 +14,3 @@ resource "oci_core_internet_gateway" "a10_igw" {
 }
 
 output "internet_gateway_id" { value = "${oci_core_internet_gateway.a10_igw.id}" } 
-
-
