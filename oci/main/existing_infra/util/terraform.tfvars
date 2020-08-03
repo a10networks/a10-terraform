@@ -28,7 +28,6 @@ client_vnic_display_name = "client"
 client_vnic_index = "2"
 
 app_display_name = "app"
-
 oci_subnet_id1 = ""  # first subnet id
 oci_subnet_id2 = ""  # second subnet id
 oci_subnet_id3 = ""  # third subnet id
