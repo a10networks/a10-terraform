@@ -94,7 +94,6 @@ provider "oci" {
   private_key_password = "${var.private_key_password}"
   }
 
-
 module "oci_compute" {
 tenancy_ocid = "${var.tenancy_ocid}"
 compartment_id = "${var.compartment_id}"
