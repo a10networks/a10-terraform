@@ -129,6 +129,13 @@ module "oci_compute" {
  vThunder__image_ocid = "${var.vThunder__image_ocid}"
 }
 
+module "dynamic_group" {
+  source = "../../../modules/infra/dynamic_group"
+  instance_list = "${concat([module.oci_compute.instance_id_active], module.oci_compute.instance_list)}"
+  tenancy_ocid = "${var.tenancy_ocid}"
+  compartment_id = "${var.compartment_id}"
+}
+
 module "nic" {
  source = "../../../modules/infra/NIC"
  oci_subnet_id2 = "${module.subnet.oci_subnet_id2}"
