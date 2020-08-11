@@ -5,7 +5,7 @@ compartment_id = "" #QA-BLR
 region = "us-ashburn-1"
 
 #Login details
-private_key_path = "/home/abc/A10/keys/oci_api_key.pem"
+private_key_path = "/oci_api_key.pem"
 private_key_password = ""
 fingerprint = ""
 
@@ -23,7 +23,9 @@ vm_availability_domain = "paEo:US-ASHBURN-AD-2"
 vm_shape = "VM.Standard2.8"
 vm_creation_timeout = "5m"
 vm_primary_vnic_display_name = "primary-vnic"
-vm_ssh_public_key_path = "/home/abc/oci_key.pub"
+vm_ssh_public_key_path = "/oci_key.pub"
+
+prefix = "vthunder"
 
 #Secondary VNIC details - server
 server_vnic_display_name = "server-facing"
