@@ -48,6 +48,10 @@ variable "count_vm" {
   default = "1"
 }
 
+variable "prefix" {
+  default = ""
+}
+
 data "oci_core_images" "vThuder_image" {
   compartment_id = "${var.tenancy_ocid}"
   #compartment_id = "${var.compartment_id}"
@@ -61,7 +65,7 @@ resource "oci_core_instance" "vthunder_vm" {
   count = "${var.count_vm}"
   compartment_id = "${var.compartment_id}"
 
-  display_name = "vthunder-vm-${count.index + 1}"
+  display_name = "${var.prefix}-vm-${count.index + 1}"
 
   availability_domain = "${var.vm_availability_domain}"
 

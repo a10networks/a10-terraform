@@ -20,6 +20,10 @@ variable "app_display_name" {
 description = "app display name"
 }
 
+variable "prefix" {
+    description = "A unique prefix to create and identify resources created in specific deployment"
+}
+
 variable "region" {
 description = "Region"
 }
@@ -120,6 +124,7 @@ module "oci_compute" {
  source = "../../../modules/infra/compute"
  oci_subnet_id1 = "${module.subnet.oci_subnet_id1}"
  oci_subnet_id3 = "${module.subnet.oci_subnet_id3}"
+ prefix = "${var.prefix}"
  vm_availability_domain = "${var.vm_availability_domain}"
  vm_shape = "${var.vm_shape}"
  vm_creation_timeout = "${var.vm_creation_timeout}"
@@ -131,6 +136,8 @@ module "oci_compute" {
 
 module "dynamic_group" {
   source = "../../../modules/infra/dynamic_group"
+  dynamic_group_name = "${var.prefix}-dynamic-group"
+  policy_name = "${var.prefix}-policy"
   instance_list = "${concat([module.oci_compute.instance_id_active], module.oci_compute.instance_list)}"
   tenancy_ocid = "${var.tenancy_ocid}"
   compartment_id = "${var.compartment_id}"
