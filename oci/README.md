@@ -1,16 +1,14 @@
-Instructions to play with a10-terraform OCI module:
+Instructions to deploy vThunder on OCI:
 
-1.) Clone the repository from git hub:
+1.) Clone the repository from github location:
 https://github.com/a10networks/a10-terraform.git
 
-2.) Go to the oci directory in cloned repository and edit the tfvars file to configure all the appropriate parameters:
+2.) In your cloned repository, go to the oci directory. Now edit the tfvars file to set values for all variables:
 example:
 <>/oci/main/existing_infra/util/terraform.tfvars
 
-3.) In the same "util" directory(containing .tfvars file) simply run the wrapper scripts to spin-up and tear-down OCI instance.
+3) To spin-up an OCI instance(s), run the below script:
+./a10-spin-oci-instance.sh
 
-a.) To spin-up the OCI instance, simply run the following wrapper:
-bash# ./a10-spin-oci-instance.sh
-
-b.) To tear-down the OCI instance, simply run the following wrapper:
-bash# ./a10-tear-down-oci-instance.sh
+4) To tear-down those OCI instance(s), run the below script:
+./a10-tear-down-oci-instance.sh
