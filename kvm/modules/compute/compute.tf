@@ -55,11 +55,9 @@ resource "libvirt_domain" "Domain" {
    }
    network_interface {
    network_name = "${var.network_name1}"
-   #wait_for_lease = true
    }
    network_interface {
    network_name = "${var.network_name2}"
-   #wait_for_lease = true
    }
    console {
    type = "pty"
