@@ -16,6 +16,7 @@ vm_shape = "VM.Standard2.8"
 vm_creation_timeout = "5m"
 vm_primary_vnic_display_name = "primary-vnic"
 vm_ssh_public_key_path = ""
+vThunder__image_ocid=""
 
 #Secondary VNIC details - server
 server_vnic_private_ip = ""  #Server vnic private ip
@@ -31,3 +32,5 @@ app_display_name = "app"
 oci_subnet_id1 = ""  # first subnet id
 oci_subnet_id2 = ""  # second subnet id
 oci_subnet_id3 = ""  # third subnet id
+
+count_vm = "1"
