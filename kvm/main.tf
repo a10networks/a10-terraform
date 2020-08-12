@@ -12,7 +12,7 @@ provider "libvirt" {
  uri = "qemu:///system"
 }
 
-# run the network
+# Configure network module
 
 module "network-module" {
    source = "./modules/networks/"
