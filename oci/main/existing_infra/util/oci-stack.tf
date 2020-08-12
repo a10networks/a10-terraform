@@ -121,7 +121,6 @@ module "oci_compute" {
   oci_subnet_id3         = "${var.oci_subnet_id3}"
   vm_availability_domain = "${var.vm_availability_domain}"
   vm_shape               = "${var.vm_shape}"
-  #vm_display_name = "${var.vm_display_name}"
   vm_creation_timeout          = "${var.vm_creation_timeout}"
   vm_primary_vnic_display_name = "${var.vm_primary_vnic_display_name}"
   vm_ssh_public_key_path       = "${var.vm_ssh_public_key_path}"
@@ -139,18 +138,14 @@ module "dynamic_group" {
 }
 
 module "nic" {
-  #source = "../../../modules/OCI/infra/NIC"
   source                   = "../../../modules/infra/NIC"
   oci_subnet_id2           = "${var.oci_subnet_id2}"
   compartment_id           = "${var.compartment_id}"
   server_vnic_display_name = "${var.server_vnic_display_name}"
-  #server_vnic_private_ip = "${var.server_vnic_private_ip}"
   instance_list      = "${module.oci_compute.instance_list}"
   instance_id_active = "${module.oci_compute.instance_id_active}"
-  #instance_id = "${module.oci_compute.instance_id}"
   oci_subnet_id3           = "${var.oci_subnet_id3}"
   client_vnic_display_name = "${var.client_vnic_display_name}"
-  #client_vnic_private_ip = "${var.client_vnic_private_ip}"
 }
 
 output "vnic_ID" { value = "${module.nic.vnic_id}" }
