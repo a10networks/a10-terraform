@@ -1,5 +1,5 @@
 # libvirt.tf
-# add the provider
+
 provider "libvirt" {
  uri = "qemu:///system"
 }
