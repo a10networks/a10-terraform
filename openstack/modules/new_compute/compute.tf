@@ -47,8 +47,8 @@ provider "openstack" {
 }
 
 resource "openstack_compute_instance_v2" "TF-VM" {
-  name      = "TF-Vthunder-vm01-new"
-  image_id  = "${var.image_id}"
+  name        = "TF-Vthunder-vm01-new"
+  image_id    = "${var.image_id}"
   flavor_name = "${var.flavor_name}"
   #security_groups = ["${var.sg_id}"]
 
@@ -65,8 +65,8 @@ resource "openstack_compute_instance_v2" "TF-VM" {
 }
 
 resource "openstack_compute_instance_v2" "app" {
-  name      = "tf-app-server01"
-  image_id  = "${var.centos_image_id}"
+  name        = "tf-app-server01"
+  image_id    = "${var.centos_image_id}"
   flavor_name = "m1.medium"
   #security_groups = ["${var.sg_id}"]
 
@@ -75,9 +75,9 @@ resource "openstack_compute_instance_v2" "app" {
     uuid = "${var.network_id_client}"
   }
 
-user_data = "${file("user_data.sh")}"
+  user_data = "${file("user_data.sh")}"
 
 }
 
 output "instance_id" { value = "${openstack_compute_instance_v2.TF-VM.id}" }
-output "app_server_ip" {value = "${openstack_compute_instance_v2.app.access_ip_v4}"}
+output "app_server_ip" { value = "${openstack_compute_instance_v2.app.access_ip_v4}" }

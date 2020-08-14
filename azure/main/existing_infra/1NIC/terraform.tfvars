@@ -4,7 +4,7 @@ tenant_id       = ""
 subscription_id = ""
 #client_id       = ""
 #client_secret   = ""
-client_id = ""
+client_id     = ""
 client_secret = ""
 #Networking
 

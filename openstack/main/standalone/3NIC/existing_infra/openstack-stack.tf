@@ -79,9 +79,9 @@ module "VPC" {
 }
 */
 module "compute" {
-  source = "../../../../modules/compute"
-  image_id = "${var.image_id}"
-  flavor_name = "${var.flavor_name}"
+  source            = "../../../../modules/compute"
+  image_id          = "${var.image_id}"
+  flavor_name       = "${var.flavor_name}"
   mgmt_network_name = "${var.mgmt_network_name}"
   eth1_network_name = "${var.eth1_network_name}"
   eth2_network_name = "${var.eth2_network_name}"
@@ -90,26 +90,26 @@ module "compute" {
 
 
 module "port" {
-  source = "../../../../modules/existing_port"
+  source          = "../../../../modules/existing_port"
   mgmt_network_id = "${var.mgmt_network_id}"
   eth1_network_id = "${var.eth1_network_id}"
   eth2_network_id = "${var.eth2_network_id}"
-  instance_id = "${module.compute.instance_id}"
-  mgmt_subnet_id = "${var.mgmt_subnet_id}"
-  eth1_subnet_id = "${var.eth1_subnet_id}"
-  eth2_subnet_id = "${var.eth2_subnet_id}"
+  instance_id     = "${module.compute.instance_id}"
+  mgmt_subnet_id  = "${var.mgmt_subnet_id}"
+  eth1_subnet_id  = "${var.eth1_subnet_id}"
+  eth2_subnet_id  = "${var.eth2_subnet_id}"
 
 }
 
 
 module "floating_ip" {
   source = "../../../../modules/floating_ip"
-  port1 = "${module.port.port1}"
+  port1  = "${module.port.port1}"
   #port2 = "${module.port.port2}"
-  extra_port = "${module.port.extra_port}"
+  extra_port  = "${module.port.extra_port}"
   instance_id = "${module.compute.instance_id}"
 }
 
-output "mgmt_ip" { value = "${module.floating_ip.mgmt_ip}"}
-output "vvip_ip" { value = "${module.floating_ip.vvip_ip}"}
-output "app_server_ip" {value = "${module.compute.app_server_ip}"}
+output "mgmt_ip" { value = "${module.floating_ip.mgmt_ip}" }
+output "vvip_ip" { value = "${module.floating_ip.vvip_ip}" }
+output "app_server_ip" { value = "${module.compute.app_server_ip}" }

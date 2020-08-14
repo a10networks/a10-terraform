@@ -79,12 +79,12 @@ module "vpc" {
 }
 
 module "subnet" {
-  source              = "../../../../modules/AWS/subnet"
-  aws_access_key      = "${var.aws_access_key}"
-  aws_secret_key      = "${var.aws_secret_key}"
-  region              = "${var.region}"
+  source         = "../../../../modules/AWS/subnet"
+  aws_access_key = "${var.aws_access_key}"
+  aws_secret_key = "${var.aws_secret_key}"
+  region         = "${var.region}"
   #subnet_name        = "${var.subnet_name}"
-  count_vm            = "${var.count_vm}"  #private_subnet_name = "${var.subnet_name}"
+  count_vm            = "${var.count_vm}" #private_subnet_name = "${var.subnet_name}"
   CIDR_range          = "${var.subnet_cidr}"
   public_ip_on_launch = "true"
   vpc_id              = "${module.vpc.vpc_id}"
@@ -111,19 +111,19 @@ module "route_table" {
 
 
 module "aws_compute" {
-  aws_access_key       = "${var.aws_access_key}"
-  aws_secret_key       = "${var.aws_secret_key}"
-  region               = "${var.region}"
-  source               = "../../../../modules/AWS/compute"
+  aws_access_key = "${var.aws_access_key}"
+  aws_secret_key = "${var.aws_secret_key}"
+  region         = "${var.region}"
+  source         = "../../../../modules/AWS/compute"
   #nic_list = "${concat("module.NIC.default_network_interface_id","module.add_NIC.new_network_interface_id")}"
-  aws_key_name         = "${var.aws_key_name}"
-  count_vm                = "${var.count_vm}"
-  active_default_nic_id = "${module.add_NIC.active_default_network_interface_id}"
-  active_first_network_interface_id = "${module.add_NIC.active_first_network_interface_id}"
+  aws_key_name                       = "${var.aws_key_name}"
+  count_vm                           = "${var.count_vm}"
+  active_default_nic_id              = "${module.add_NIC.active_default_network_interface_id}"
+  active_first_network_interface_id  = "${module.add_NIC.active_first_network_interface_id}"
   active_second_network_interface_id = "${module.add_NIC.active_second_network_interface_id}"
-  stdby_default_nic_id = "${module.add_NIC.stdby_default_network_interface_id}"
-  stdby_first_network_interface_id = "${module.add_NIC.stdby_first_network_interface_id}"
-  stdby_second_network_interface_id = "${module.add_NIC.stdby_second_network_interface_id}"
+  stdby_default_nic_id               = "${module.add_NIC.stdby_default_network_interface_id}"
+  stdby_first_network_interface_id   = "${module.add_NIC.stdby_first_network_interface_id}"
+  stdby_second_network_interface_id  = "${module.add_NIC.stdby_second_network_interface_id}"
 
 }
 
@@ -137,28 +137,28 @@ module "SG" {
 }
 
 module "add_NIC" {
-  count_vm = "${var.count_vm}"
-  source         = "../../../../modules/AWS/add_NIC"
-  aws_access_key = "${var.aws_access_key}"
-  aws_secret_key = "${var.aws_secret_key}"
-  region         = "${var.region}"
-  private_subnet_ids      = "${module.subnet.private_subnet_ids}"
-  public_subnet_ids = "${module.subnet.public_subnet_ids}"
-  security_groups = "${module.SG.security_grp}"
+  count_vm           = "${var.count_vm}"
+  source             = "../../../../modules/AWS/add_NIC"
+  aws_access_key     = "${var.aws_access_key}"
+  aws_secret_key     = "${var.aws_secret_key}"
+  region             = "${var.region}"
+  private_subnet_ids = "${module.subnet.private_subnet_ids}"
+  public_subnet_ids  = "${module.subnet.public_subnet_ids}"
+  security_groups    = "${module.SG.security_grp}"
 }
 
 module "EIP" {
-  count_ip = "${var.subnet_count}"
-  source = "../../../../modules/AWS/EIP"
-  aws_access_key = "${var.aws_access_key}"
-  aws_secret_key = "${var.aws_secret_key}"
-  region = "${var.region}"
+  count_ip                            = "${var.subnet_count}"
+  source                              = "../../../../modules/AWS/EIP"
+  aws_access_key                      = "${var.aws_access_key}"
+  aws_secret_key                      = "${var.aws_secret_key}"
+  region                              = "${var.region}"
   active_default_network_interface_id = "${module.add_NIC.active_default_network_interface_id}"
-  active_first_network_interface_id = "${module.add_NIC.active_first_network_interface_id}"
-  active_first_private_ips = "${element(module.add_NIC.active_first_private_ips,0)}"
-  stdby_default_network_interface_id = "${module.add_NIC.stdby_default_network_interface_id}"
-  stdby_first_network_interface_id = "${module.add_NIC.stdby_first_network_interface_id}"
-  stdby_first_private_ips = "${module.add_NIC.stdby_first_private_ips}"
+  active_first_network_interface_id   = "${module.add_NIC.active_first_network_interface_id}"
+  active_first_private_ips            = "${element(module.add_NIC.active_first_private_ips, 0)}"
+  stdby_default_network_interface_id  = "${module.add_NIC.stdby_default_network_interface_id}"
+  stdby_first_network_interface_id    = "${module.add_NIC.stdby_first_network_interface_id}"
+  stdby_first_private_ips             = "${module.add_NIC.stdby_first_private_ips}"
 }
 
 //output "private_ip_list" { value = "${module.add_NIC.stdby_first_private_ips}"}
@@ -167,12 +167,12 @@ output "private_ip_list2" { value = "${element(tolist(module.add_NIC.stdby_first
 output "private_ip_list3" { value = "${element(tolist(slice(module.add_NIC.stdby_first_private_ips,0,1)),0)}"}*/
 
 
-output "VPC_ID" { value = "${module.vpc.vpc_id}"}
-output "Public_subnet" {value = "${module.subnet.public_subnet_ids}"}
-output "Private_Subnets" {value = "${module.subnet.private_subnet_ids}"}
+output "VPC_ID" { value = "${module.vpc.vpc_id}" }
+output "Public_subnet" { value = "${module.subnet.public_subnet_ids}" }
+output "Private_Subnets" { value = "${module.subnet.private_subnet_ids}" }
 
-output "vThuder_management_IP" { value = "${module.aws_compute.ip_active}"}
+output "vThuder_management_IP" { value = "${module.aws_compute.ip_active}" }
 
-output "active_instance_id" { value = "${module.aws_compute.instance_id_active}"}
+output "active_instance_id" { value = "${module.aws_compute.instance_id_active}" }
 
-output "stdby_instance_list" { value = "${module.aws_compute.stdby_instance_list}"}
+output "stdby_instance_list" { value = "${module.aws_compute.stdby_instance_list}" }

@@ -19,7 +19,7 @@ variable "tenant_id" {
 }
 
 provider "openstack" {
- cloud = "openstack"
+  cloud = "openstack"
 }
 
 
@@ -39,6 +39,6 @@ resource "openstack_networking_network_v2" "network_3" {
 }
 
 
-output "network_id_mgmt" {value = "${openstack_networking_network_v2.network_1.id}" }
-output "network_id_server" {value = "${openstack_networking_network_v2.network_2.id}" }
-output "network_id_client" {value = "${openstack_networking_network_v2.network_3.id}" }
+output "network_id_mgmt" { value = "${openstack_networking_network_v2.network_1.id}" }
+output "network_id_server" { value = "${openstack_networking_network_v2.network_2.id}" }
+output "network_id_client" { value = "${openstack_networking_network_v2.network_3.id}" }

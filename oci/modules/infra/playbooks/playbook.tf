@@ -67,16 +67,16 @@ variable "instance_id_list" {
 
 
 resource "null_resource" "vthunder1_up" {
-    triggers = {
-      vthunder_id = "${var.instance_id}"
-    }
+  triggers = {
+    vthunder_id = "${var.instance_id}"
+  }
 }
 
 resource "null_resource" "vthunder2_up" {
   count = "${length(var.instance_id_list)}"
-    triggers = {
-      vthunder_id = "${element(var.instance_id_list,tonumber(count.index))}"
-    }
+  triggers = {
+    vthunder_id = "${element(var.instance_id_list, tonumber(count.index))}"
+  }
 }
 
 resource "null_resource" "active_VT_1" {
@@ -90,7 +90,7 @@ resource "null_resource" "active_VT_1" {
 
           
 
-          ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_harmony_ctrl.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip}' a10_password='${element(split(".",var.instance_id),4)}' ";
+          ansible-playbook ../../../../modules/OCI/infra/playbooks/playbook_harmony_ctrl.yaml --extra-vars "a10_host='${var.vthunder_vm_public_ip}' a10_password='${element(split(".", var.instance_id), 4)}' ";
 
 EOT
   }

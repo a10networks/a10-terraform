@@ -52,6 +52,6 @@ resource "openstack_networking_router_interface_v2" "router_interface_3" {
   subnet_id = "${var.subnet_id_client}"
 }
 
-output "router_id_mgmt" {value = "${openstack_networking_router_v2.router_1.id}"}
-output "router_id_server" {value = "${openstack_networking_router_v2.router_2.id}"}
-output "router_id_client" {value = "${openstack_networking_router_v2.router_3.id}"}
+output "router_id_mgmt" { value = "${openstack_networking_router_v2.router_1.id}" }
+output "router_id_server" { value = "${openstack_networking_router_v2.router_2.id}" }
+output "router_id_client" { value = "${openstack_networking_router_v2.router_3.id}" }

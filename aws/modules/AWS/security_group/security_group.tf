@@ -1,6 +1,6 @@
 variable "region" {
-    description = "AWS Region"
-    default = ""
+  description = "AWS Region"
+  default     = ""
 }
 
 variable "aws_access_key" {
@@ -16,13 +16,13 @@ variable "vpc_id" {
 }
 
 provider "aws" {
-    access_key = "${var.aws_access_key}"
-    secret_key = "${var.aws_secret_key}"
-    region = "${var.region}"
+  access_key = "${var.aws_access_key}"
+  secret_key = "${var.aws_secret_key}"
+  region     = "${var.region}"
 }
 
 resource "aws_security_group" "vThunder_sg" {
-  name = "vThunder_sg"
+  name   = "vThunder_sg"
   vpc_id = "${var.vpc_id}"
 
 
@@ -33,12 +33,12 @@ resource "aws_security_group" "vThunder_sg" {
     cidr_blocks = ["114.143.194.190/32"]
   }
 
-    ingress {
-      from_port   = 22
-      to_port     = 22
-      protocol    = "tcp"
-      cidr_blocks = ["115.113.153.34/32"]
-    }
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["115.113.153.34/32"]
+  }
 
   ingress {
     from_port   = 80
@@ -70,4 +70,4 @@ resource "aws_security_group" "vThunder_sg" {
   }
 }
 
-output "security_grp" { value = "${aws_security_group.vThunder_sg.id}"}
+output "security_grp" { value = "${aws_security_group.vThunder_sg.id}" }

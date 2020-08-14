@@ -31,15 +31,15 @@ variable "vpc_id" {
 }
 
 variable "public_subnet_id" {
-  type="list"
+  type = "list"
 }
 
 variable "private_subnet_id" {
-  type="list"
+  type = "list"
 }
 
 variable "security_groups" {
-  default=""
+  default = ""
 }
 
 variable "amis" {
@@ -80,45 +80,45 @@ provider "aws" {
 }
 
 module "aws_compute" {
-  aws_access_key       = "${var.aws_access_key}"
-  aws_secret_key       = "${var.aws_secret_key}"
-  region               = "${var.region}"
-  source               = "../../../../modules/AWS/compute"
-  #nic_list = "${concat("module.NIC.default_network_interface_id","module.add_NIC.new_network_interface_id")}"
-  aws_key_name         = "${var.aws_key_name}"
-  count                = "${var.count}"
-  default_nic_id = "${module.add_NIC.default_network_interface_id}"
-  first_network_interface_id = "${module.add_NIC.first_network_interface_id}"
-  second_network_interface_id = "${module.add_NIC.second_network_interface_id}"
-  third_network_interface_id = "${module.add_NIC.third_network_interface_id}"
-}
-
-module "add_NIC" {
-  vm_count = "${var.count}"
-  countnic          = "${var.subnet_count - 1 }"
-  source         = "../../../../modules/AWS/add_NIC"
   aws_access_key = "${var.aws_access_key}"
   aws_secret_key = "${var.aws_secret_key}"
   region         = "${var.region}"
-  subnet_id      = "${var.private_subnet_id}"
-  public_subnet_id = "${var.public_subnet_id}"
-  security_groups = "${var.security_groups}"
+  source         = "../../../../modules/AWS/compute"
+  #nic_list = "${concat("module.NIC.default_network_interface_id","module.add_NIC.new_network_interface_id")}"
+  aws_key_name                = "${var.aws_key_name}"
+  count                       = "${var.count}"
+  default_nic_id              = "${module.add_NIC.default_network_interface_id}"
+  first_network_interface_id  = "${module.add_NIC.first_network_interface_id}"
+  second_network_interface_id = "${module.add_NIC.second_network_interface_id}"
+  third_network_interface_id  = "${module.add_NIC.third_network_interface_id}"
+}
+
+module "add_NIC" {
+  vm_count             = "${var.count}"
+  countnic             = "${var.subnet_count - 1}"
+  source               = "../../../../modules/AWS/add_NIC"
+  aws_access_key       = "${var.aws_access_key}"
+  aws_secret_key       = "${var.aws_secret_key}"
+  region               = "${var.region}"
+  subnet_id            = "${var.private_subnet_id}"
+  public_subnet_id     = "${var.public_subnet_id}"
+  security_groups      = "${var.security_groups}"
   vthunder_instance_id = "${module.aws_compute.vthunder_instance_id}"
 }
 
 module "EIP1" {
-  count = "${var.subnet_count}"
-  source = "../../../../modules/AWS/EIP"
-  aws_access_key = "${var.aws_access_key}"
-  aws_secret_key = "${var.aws_secret_key}"
-  region = "${var.region}"
+  count                        = "${var.subnet_count}"
+  source                       = "../../../../modules/AWS/EIP"
+  aws_access_key               = "${var.aws_access_key}"
+  aws_secret_key               = "${var.aws_secret_key}"
+  region                       = "${var.region}"
   default_network_interface_id = "${module.add_NIC.default_network_interface_id}"
-  first_network_interface_id = "${module.add_NIC.first_network_interface_id}"
-  private_ip_NIC = "${module.add_NIC.private_ip_NIC}"
+  first_network_interface_id   = "${module.add_NIC.first_network_interface_id}"
+  private_ip_NIC               = "${module.add_NIC.private_ip_NIC}"
   #aws_eip_name = "${var.aws_eip_name}"
 }
 
-output "vthunder IP(s)" {value = "${module.aws_compute.vthunder_instance_id}"}
-output "Default NIC ID" {value = "${module.add_NIC.default_network_interface_id}"}
-output "vThuder management IP " { value = "${module.aws_compute.ip}"}
-output "Instance id " { value = "${module.aws_compute.vthunder_instance_id}"}
+output "vthunder IP(s)" { value = "${module.aws_compute.vthunder_instance_id}" }
+output "Default NIC ID" { value = "${module.add_NIC.default_network_interface_id}" }
+output "vThuder management IP " { value = "${module.aws_compute.ip}" }
+output "Instance id " { value = "${module.aws_compute.vthunder_instance_id}" }

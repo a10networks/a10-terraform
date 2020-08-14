@@ -14,7 +14,7 @@ variable "instance_id" {
 }
 
 provider "openstack" {
- cloud = "openstack"
+  cloud = "openstack"
 }
 
 
@@ -48,5 +48,5 @@ resource "openstack_networking_floatingip_associate_v2" "fip_3" {
 }
 
 
-output "mgmt_ip" { value = "${openstack_networking_floatingip_v2.floatip_1.address}"}
-output "vvip_ip" { value = "${openstack_networking_floatingip_v2.floatip_3.address}"}
+output "mgmt_ip" { value = "${openstack_networking_floatingip_v2.floatip_1.address}" }
+output "vvip_ip" { value = "${openstack_networking_floatingip_v2.floatip_3.address}" }

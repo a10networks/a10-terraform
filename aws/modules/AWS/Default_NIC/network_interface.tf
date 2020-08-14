@@ -1,6 +1,6 @@
 variable "region" {
-    description = "AWS Region"
-    default = ""
+  description = "AWS Region"
+  default     = ""
 }
 
 variable "aws_access_key" {
@@ -19,9 +19,9 @@ variable "device_index" {
 }
 
 provider "aws" {
-    access_key = "${var.aws_access_key}"
-    secret_key = "${var.aws_secret_key}"
-    region = "${var.region}"
+  access_key = "${var.aws_access_key}"
+  secret_key = "${var.aws_secret_key}"
+  region     = "${var.region}"
 }
 
 variable "network_interface_name" {
@@ -38,12 +38,12 @@ variable "vthunder_instance_id" {
 
 
 resource "aws_network_interface" "NIC" {
-  subnet_id       = "${element(var.subnet_id,count.index)}"
+  subnet_id = "${element(var.subnet_id, count.index)}"
   #private_ips     = ["10.0.1.15"]
   security_groups = ["${var.security_grp}"]
   tags {
-    "TAG" = "${var.network_interface_name}"
+    TAG = "${var.network_interface_name}"
   }
 }
 
-output "default_network_interface_id" {value = "${aws_network_interface.NIC.*.id}"}
+output "default_network_interface_id" { value = "${aws_network_interface.NIC.*.id}" }

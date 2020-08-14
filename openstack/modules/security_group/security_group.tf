@@ -1,4 +1,4 @@
-provider "openstack"{
+provider "openstack" {
   cloud = "openstack"
 }
 
@@ -30,4 +30,4 @@ resource "openstack_compute_secgroup_v2" "secgroup_1" {
 
 }
 
-output "security_group_id" { value = "${openstack_compute_secgroup_v2.secgroup_1.id}"}
+output "security_group_id" { value = "${openstack_compute_secgroup_v2.secgroup_1.id}" }

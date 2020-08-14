@@ -1,5 +1,5 @@
 variable "cidr" {
-type = "list"
+  type = "list"
 }
 
 variable "network_id_mgmt" {
@@ -43,6 +43,6 @@ resource "openstack_networking_subnet_v2" "subnet3" {
 
 
 
-output "subnet_id_mgmt" {value = "${openstack_networking_subnet_v2.subnet1.id}"}
-output "subnet_id_server" {value = "${openstack_networking_subnet_v2.subnet2.id}"}
-output "subnet_id_client" {value = "${openstack_networking_subnet_v2.subnet3.id}"}
+output "subnet_id_mgmt" { value = "${openstack_networking_subnet_v2.subnet1.id}" }
+output "subnet_id_server" { value = "${openstack_networking_subnet_v2.subnet2.id}" }
+output "subnet_id_client" { value = "${openstack_networking_subnet_v2.subnet3.id}" }
