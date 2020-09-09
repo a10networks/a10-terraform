@@ -20,6 +20,7 @@ provider "proxmox" {
   pm_password     = ""
   pm_user         = ""
   pm_otp          = ""
+  pm_timeout      = 1000
 }
 
 resource "proxmox_vm_qemu" "proxmox_vm" {
@@ -33,7 +34,16 @@ resource "proxmox_vm_qemu" "proxmox_vm" {
   cpu         = "host"
   memory      = var.vThunder_memory
   scsihw      = ""
-  bootdisk    = ""
+  bootdisk    = "scsi0"
+  disk {
+    id   = 0
+    size = 20
+    type = "scsi"
+    #Modify storage name as per your setup!
+    storage      = "local-lvm"
+    storage_type = "lvm"
+    iothread     = true
+  }
   network {
     id     = 0
     model  = "" #Eg virtio
