@@ -1,0 +1,19 @@
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: server-bridge
+spec:
+  config: '{
+      "cniVersion": "0.3.0",
+      "type": "bridge",
+      "master": "eno1",
+      "mode": "bridge",
+      "ipam": {
+        "assign_ipv6": "true",
+        "type": "host-local",
+        "subnet": "101.0.0.0/24",
+        "rangeStart": "101.0.0.200",
+        "rangeEnd": "101.0.0.216"
+      }
+  }'
+
