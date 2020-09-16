@@ -1,6 +1,6 @@
 provider "kubernetes" {
 
-config_path = "./admin.conf"
+  config_path = "./admin.conf"
 
 }
 

@@ -28,45 +28,45 @@ resource "kubernetes_deployment" "example_deployment" {
 
       spec {
         container {
-            name = "cthunder"
-            image = "acos_docker_5_2_0_155:latest"
-            image_pull_policy = "Never"
-            env {
-                name = "ACOS_CTH_SUPPORT_MGMT"
-                value = "y"
+          name              = "cthunder"
+          image             = "acos_docker_5_2_0_155:latest"
+          image_pull_policy = "Never"
+          env {
+            name  = "ACOS_CTH_SUPPORT_MGMT"
+            value = "y"
+          }
+          env {
+            name  = "ACOS_CTH_SUPPORT_VETH"
+            value = "y"
+          }
+          env {
+            name  = "ACOS_CTH_VETH_DRIVER_LST"
+            value = "macvlan,veth"
+          }
+          resources {
+            requests {
+              memory = "4Gi"
+              cpu    = "4"
             }
-            env {
-                name = "ACOS_CTH_SUPPORT_VETH"
-                value = "y"
+            limits {
+              memory = "4Gi"
+              cpu    = "4"
             }
-            env {
-                name = "ACOS_CTH_VETH_DRIVER_LST"
-                value = "macvlan,veth"
+          }
+          port {
+            container_port = 80
+          }
+          security_context {
+            privileged  = true
+            run_as_user = 0
+            capabilities {
+              add = [
+                "SYS_ADMIN",
+                "NET_ADMIN",
+                "IPC_LOCK"
+              ]
             }
-            resources {
-                requests {
-                    memory = "4Gi"
-                    cpu = "4"
-                }
-                limits {
-                    memory = "4Gi"
-                    cpu = "4"
-                }
-            }
-            port {
-                container_port = 80
-            }
-            security_context {
-              privileged = true
-              run_as_user = 0
-              capabilities {
-                add = [
-                  "SYS_ADMIN",
-                  "NET_ADMIN",
-                  "IPC_LOCK"
-                ]
-              }
-            }
+          }
         }
       }
     }
