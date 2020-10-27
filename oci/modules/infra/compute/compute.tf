@@ -1,7 +1,3 @@
-variable "app_display_name" {
-  default = ""
-}
-
 variable "compartment_id" {
   description = "Compartment OCID"
 }
@@ -34,10 +30,6 @@ variable "oci_subnet_id1" {
   description = "oci_subnet_id"
 }
 
-variable "oci_subnet_id3" {
-  description = "oci_subnet_id"
-}
-
 variable "tenancy_ocid" {
   description = "tenancy ocid"
 }
@@ -49,75 +41,52 @@ variable "count_vm" {
 }
 
 data "oci_core_images" "vThuder_image" {
-  compartment_id = "${var.tenancy_ocid}"
-  #compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
 }
 
 locals {
-  vThunder__image_ocid = "${var.vThunder__image_ocid}"
+  vThunder__image_ocid = var.vThunder__image_ocid
 }
 
 resource "oci_core_instance" "vthunder_vm" {
-  count          = "${var.count_vm}"
-  compartment_id = "${var.compartment_id}"
+  count          = var.count_vm
+  compartment_id = var.compartment_id
 
   display_name = "vthunder-vm-${count.index + 1}"
 
-  availability_domain = "${var.vm_availability_domain}"
+  availability_domain = element(data.oci_identity_availability_domains.compartment_availability_domains.availability_domains, count.index).name
 
   source_details {
-    source_id   = "${local.vThunder__image_ocid}"
+    source_id   = local.vThunder__image_ocid
     source_type = "image"
   }
 
-  shape = "${var.vm_shape}"
+  shape = var.vm_shape
 
   create_vnic_details {
-    subnet_id        = "${var.oci_subnet_id1}"
-    display_name     = "${var.vm_primary_vnic_display_name}"
+    subnet_id        = var.oci_subnet_id1
+    display_name     = var.vm_primary_vnic_display_name
     assign_public_ip = true
   }
   metadata = {
-    ssh_authorized_keys = "${file(var.vm_ssh_public_key_path)}"
+    ssh_authorized_keys = file(var.vm_ssh_public_key_path)
+    user_data           = base64encode(file("passwd_reset.yaml"))
   }
   timeouts {
-    create = "${var.vm_creation_timeout}"
+    create = var.vm_creation_timeout
   }
 }
 
-##APP SERVER###
-
-resource "oci_core_instance" "app-server" {
-  compartment_id      = "${var.compartment_id}"
-  display_name        = "${var.app_display_name}"
-  availability_domain = "${var.vm_availability_domain}"
-
-  source_details {
-    source_id   = "ocid1.image.oc1.iad.aaaaaaaaek6aecdnja3rc6qmimbv4x3cipl5b4mknkxlp4xqpmjbbv43dloa"
-    source_type = "image"
-  }
-
-  shape = "${var.vm_app_shape}"
-
-  create_vnic_details {
-    subnet_id        = "${var.oci_subnet_id3}"
-    assign_public_ip = false
-  }
-  metadata = {
-    ssh_authorized_keys = "${file(var.vm_ssh_public_key_path)}"
-    user_data           = "${base64encode(file("user_data.sh"))}"
-
-  }
-  timeouts {
-    create = "${var.vm_creation_timeout}"
-  }
+data "oci_identity_availability_domains" "compartment_availability_domains" {
+    #Required
+    compartment_id = var.compartment_id
 }
 
-output "ip_active" { value = "${element(oci_core_instance.vthunder_vm.*.public_ip, 0)}" }
-output "instance_id_active" { value = "${element(oci_core_instance.vthunder_vm.*.id, 0)}" }
+output "ip_active" { value = element(oci_core_instance.vthunder_vm.*.public_ip, 0) }
+output "instance_id_active" { value = element(oci_core_instance.vthunder_vm.*.id, 0) }
 
-output "backend_server_ip" { value = "${element(oci_core_instance.app-server.*.private_ip, 0)}" }
+output "ip_list" { value = slice(oci_core_instance.vthunder_vm.*.public_ip, 0, length(oci_core_instance.vthunder_vm.*.public_ip)) }
+output "instance_list" { value = slice(oci_core_instance.vthunder_vm.*.id, 1, length(oci_core_instance.vthunder_vm.*.id)) }
+output "instance_list_full" { value = slice(oci_core_instance.vthunder_vm.*.id, 0, length(oci_core_instance.vthunder_vm.*.id)) }
 
-output "ip_list" { value = "${slice(oci_core_instance.vthunder_vm.*.public_ip, 1, length(oci_core_instance.vthunder_vm.*.public_ip))}" }
-output "instance_list" { value = "${slice(oci_core_instance.vthunder_vm.*.id, 1, length(oci_core_instance.vthunder_vm.*.id))}" }
-
+output "availability_domains" {value = data.oci_identity_availability_domains.compartment_availability_domains.availability_domains}
