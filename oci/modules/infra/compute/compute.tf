@@ -54,7 +54,7 @@ resource "oci_core_instance" "vthunder_vm" {
 
   display_name = "vthunder-vm-${count.index + 1}"
 
-  availability_domain = element(data.oci_identity_availability_domains.compartment_availability_domains.availability_domains, count.index).name
+  availability_domain = element(data.oci_identity_availability_domains.compartment_availability_domains.availability_domains, random_integer.availability_domain_id.result + count.index).name
 
   source_details {
     source_id   = local.vThunder__image_ocid
@@ -75,6 +75,11 @@ resource "oci_core_instance" "vthunder_vm" {
   timeouts {
     create = var.vm_creation_timeout
   }
+}
+
+resource "random_integer" "availability_domain_id" {
+  min     = 0
+  max     = length(data.oci_identity_availability_domains.compartment_availability_domains.availability_domains) - 1
 }
 
 data "oci_identity_availability_domains" "compartment_availability_domains" {
