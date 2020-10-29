@@ -2,10 +2,6 @@ variable "compartment_id" {
   description = "Compartment OCID"
 }
 
-variable "vm_availability_domain" {
-  description = "VM availability domain"
-}
-
 variable "vm_shape" {
   description = "VM shape"
 }
