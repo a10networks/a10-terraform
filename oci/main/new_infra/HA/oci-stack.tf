@@ -113,7 +113,6 @@ module "oci_compute" {
   compartment_id               = "${var.compartment_id}"
   source                       = "../../../modules/infra/compute"
   oci_subnet_id1               = "${module.subnet.oci_subnet_id1}"
-  oci_subnet_id3               = "${module.subnet.oci_subnet_id3}"
   vm_shape                     = "${var.vm_shape}"
   vm_creation_timeout          = "${var.vm_creation_timeout}"
   vm_primary_vnic_display_name = "${var.vm_primary_vnic_display_name}"
