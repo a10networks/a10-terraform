@@ -3,4 +3,5 @@
 *.tfstate
 *.pem
 *.pub
+*.log
 clouds.yml

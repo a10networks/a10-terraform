@@ -13,6 +13,6 @@
 #If user profile exists on any other active directory
 provider "oci"{
     auth = "SecurityToken"
-    #Specify the config_file_profile name generated using "oci session authenticat" command
-    config_file_profile = "ASHARMA"
+    #Specify the config_file_profile name generated using "oci session authenticate" command
+    config_file_profile = ""
 }

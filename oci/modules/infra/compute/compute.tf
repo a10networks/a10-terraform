@@ -32,6 +32,7 @@ variable "tenancy_ocid" {
 
 variable "vThunder__image_ocid" {
 }
+
 variable "count_vm" {
   default = "1"
 }
@@ -74,13 +75,13 @@ resource "oci_core_instance" "vthunder_vm" {
 }
 
 resource "random_integer" "availability_domain_id" {
-  min     = 0
-  max     = length(data.oci_identity_availability_domains.compartment_availability_domains.availability_domains) - 1
+  min = 0
+  max = length(data.oci_identity_availability_domains.compartment_availability_domains.availability_domains) - 1
 }
 
 data "oci_identity_availability_domains" "compartment_availability_domains" {
-    #Required
-    compartment_id = var.compartment_id
+  #Required
+  compartment_id = var.compartment_id
 }
 
 output "ip_active" { value = element(oci_core_instance.vthunder_vm.*.public_ip, 0) }
@@ -90,4 +91,4 @@ output "ip_list" { value = slice(oci_core_instance.vthunder_vm.*.public_ip, 0, l
 output "instance_list" { value = slice(oci_core_instance.vthunder_vm.*.id, 1, length(oci_core_instance.vthunder_vm.*.id)) }
 output "instance_list_full" { value = slice(oci_core_instance.vthunder_vm.*.id, 0, length(oci_core_instance.vthunder_vm.*.id)) }
 
-output "availability_domains" {value = data.oci_identity_availability_domains.compartment_availability_domains.availability_domains}
+output "availability_domains" { value = data.oci_identity_availability_domains.compartment_availability_domains.availability_domains }
