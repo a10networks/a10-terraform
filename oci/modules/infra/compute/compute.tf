@@ -37,6 +37,11 @@ variable "count_vm" {
   default = "1"
 }
 
+variable "vthunder_name" {
+  description = "name of new vThunder"
+  default = "vm"
+}
+
 data "oci_core_images" "vThuder_image" {
   compartment_id = var.compartment_id
 }
@@ -49,7 +54,7 @@ resource "oci_core_instance" "vthunder_vm" {
   count          = var.count_vm
   compartment_id = var.compartment_id
 
-  display_name = "vthunder-vm-${count.index + 1}"
+  display_name = "vthunder-${var.vthunder_name}-${count.index + 1}"
 
   availability_domain = element(data.oci_identity_availability_domains.compartment_availability_domains.availability_domains, random_integer.availability_domain_id.result + count.index).name
 
