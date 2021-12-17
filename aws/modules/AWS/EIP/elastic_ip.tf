@@ -51,18 +51,18 @@ resource "null_resource" "delay" {
   provisioner "local-exec" {
     command = "sleep 60"
   }
-  depends_on = ["null_resource.before"]
+  depends_on = [null_resource.before]
 }
 
 resource "null_resource" "after" {
-  depends_on = ["null_resource.delay"]
+  depends_on = [null_resource.delay]
 }
 
 #active EIP
 resource "aws_eip" "active_eip_one" {
   vpc               = true
   network_interface = "${element(var.active_default_network_interface_id, 0)}"
-  depends_on        = ["null_resource.after"]
+  depends_on        = [null_resource.after]
   #associate_with_private_ip = "${element(var.private_ip, 0) }"
 }
 
@@ -71,7 +71,7 @@ resource "aws_eip" "active_eip_two" {
   #network_interface         = "${element(var.new_network_interface_id, count.index)}"
   network_interface         = "${element(var.active_first_network_interface_id, 0)}"
   associate_with_private_ip = "${element(var.active_first_private_ips, 0)}"
-  depends_on                = ["aws_eip.active_eip_one"]
+  depends_on                = [aws_eip.active_eip_one]
 }
 /*
 resource "aws_eip" "active_eip_three" {
@@ -89,7 +89,7 @@ resource "aws_eip" "stdby_eip_one" {
   count             = "${length(var.stdby_default_network_interface_id)}"
   vpc               = true
   network_interface = "${element(var.stdby_default_network_interface_id, count.index)}"
-  depends_on        = ["aws_eip.active_eip_two"]
+  depends_on        = [aws_eip.active_eip_two]
   #associate_with_private_ip = "${element(var.private_ip, count.index) }"
 }
 
@@ -101,7 +101,7 @@ resource "aws_eip" "stdby_eip_two" {
   network_interface = "${element(var.stdby_first_network_interface_id, count.index)}"
   //associate_with_private_ip = "${element(var.stdby_first_private_ips, count.index)}"
   associate_with_private_ip = "${element(tolist(var.stdby_first_private_ips[count.index]), 0)}"
-  depends_on                = ["aws_eip.stdby_eip_one"]
+  depends_on                = [aws_eip.stdby_eip_one]
 }
 
 /*

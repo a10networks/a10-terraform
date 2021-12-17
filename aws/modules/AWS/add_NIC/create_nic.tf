@@ -56,7 +56,7 @@ resource "aws_network_interface" "active_first" {
 resource "aws_network_interface" "active_second" {
   subnet_id       = "${element(var.private_subnet_ids, 0)}"
   security_groups = ["${var.security_groups}"]
-  depends_on      = ["aws_network_interface.active_first"]
+  depends_on      = [aws_network_interface.active_first]
 }
 
 
@@ -82,7 +82,7 @@ resource "aws_network_interface" "stdby_second" {
   count           = "${var.count_vm - 1}"
   subnet_id       = "${element(var.private_subnet_ids, 0)}"
   security_groups = ["${var.security_groups}"]
-  depends_on      = ["aws_network_interface.stdby_first"]
+  depends_on      = [aws_network_interface.stdby_first]
 }
 
 output "active_default_network_interface_id" { value = "${aws_network_interface.active_default_NIC.*.id}" }
