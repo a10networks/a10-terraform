@@ -31,7 +31,7 @@ variable "subnet_name" {
 }
 
 variable "amis" {
-  type = "map"
+  type = map
 
   default = {
     "ap-northeast-1" = "ami-3b1e2f5c"
@@ -57,7 +57,7 @@ variable "aws_key_name" {
 }
 
 variable "subnet_cidr" {
-  type = "list"
+  type = list
 }
 
 variable "countnic" {

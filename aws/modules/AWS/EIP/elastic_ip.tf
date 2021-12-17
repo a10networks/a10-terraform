@@ -20,25 +20,25 @@ provider "aws" {
 }
 
 variable "active_default_network_interface_id" {
-  type = "list"
+  type = list
 }
 
 variable "active_first_network_interface_id" {
-  type = "list"
+  type = list
 }
 variable "active_first_private_ips" {
-  type = "list"
+  type = list
 }
 
 variable "stdby_default_network_interface_id" {
-  type = "list"
+  type = list
 }
 
 variable "stdby_first_network_interface_id" {
-  type = "list"
+  type = list
 }
 variable "stdby_first_private_ips" {
-  type = "list"
+  type = list
 }
 
 resource "null_resource" "before" {

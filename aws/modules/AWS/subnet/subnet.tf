@@ -18,7 +18,7 @@ provider "aws" {
 }
 
 variable "CIDR_range" {
-  type = "list"
+  type = list
 }
 
 variable "subnet_count" {

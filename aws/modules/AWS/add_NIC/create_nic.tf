@@ -1,9 +1,9 @@
 variable "private_subnet_ids" {
-  type = "list"
+  type = list
 }
 
 variable "public_subnet_ids" {
-  type = "list"
+  type = list
 }
 
 variable "security_groups" {

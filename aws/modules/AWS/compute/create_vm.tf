@@ -21,7 +21,7 @@ variable "aws_key_name" {
 }
 
 variable "amis" {
-  type = "map"
+  type = map
   default = {
     "ap-northeast-1" = "ami-3b1e2f5c"
     "ap-northeast-2" = "ami-e0dc018e"
@@ -33,7 +33,7 @@ variable "amis" {
     "us-east-1"      = "ami-09721c1f"
     "us-east-2"      = "ami-3c183f59"
     "us-west-1"      = "ami-c46f49a4"
-    "us-west-2"      = "ami-6bbd260b"
+    "us-west-2"      = "ami-0ac5b3417d816d282"
   }
 }
 
@@ -44,30 +44,30 @@ variable "count_vm" {
 
 
 variable "active_default_nic_id" {
-  type = "list"
+  type = list
 }
 
 
 variable "active_first_network_interface_id" {
-  type = "list"
+  type = list
 }
 
 variable "active_second_network_interface_id" {
-  type = "list"
+  type = list
 }
 
 
 variable "stdby_default_nic_id" {
-  type = "list"
+  type = list
 }
 
 
 variable "stdby_first_network_interface_id" {
-  type = "list"
+  type = list
 }
 
 variable "stdby_second_network_interface_id" {
-  type = "list"
+  type = list
 }
 
 #active VT
